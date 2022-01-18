@@ -15,7 +15,7 @@ services:
   application:
     build: 
       context: .
-    image: "socialsirius/demos:driver-licence-web${VERSION-dev}"
+    image: "socialsirius/demos:driver-licence-web${VERSION}"
     environment:
       - DATABASE_USER=postgres
       - DATABASE_PASSWORD=postgres
