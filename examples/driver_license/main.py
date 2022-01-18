@@ -197,7 +197,9 @@ async def run():
             "place_of_residence": "SPb",
             "categories": "B"
         }
-        #await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+        print("Working in police office")
+        await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+        print("Working in car rental office")
         await verify_driver_license()
 
 
