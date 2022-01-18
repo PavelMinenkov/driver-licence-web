@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'channels',
     'main',
     'police',
-    'insurance'
+    'insurance',
+    'carsharing'
 ]
 
 MIDDLEWARE = [

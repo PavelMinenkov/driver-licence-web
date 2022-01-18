@@ -14,4 +14,4 @@ To prepare dev environment in **PyCharm**, follow next steps:
   - Prepare remote interpreter: File->Settings->Interpreter->Docker-Compose
   - Enable Django support: File->Settings->Languages&Frameworks (set settings to `settings\develop.py`)
   - Add run configuration: Run/Debug configuration: Django server, host: `0.0.0.0` port: `80`
-  - Check localhost in browser
+  - Check `http://localhost` in browser
