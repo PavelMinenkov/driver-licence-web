@@ -2,9 +2,15 @@ from defs import *
 import asyncio
 
 
+class Logger:
+
+    async def __call__(self, *args, **kwargs):
+        print(dict(**kwargs))
+
+
 async def reg_driver_license() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
     schema_name = "Driver license"
-    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(issuer_did, schema_name, '1.0',
+    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(GOV["DID"], schema_name, '1.0',
                                          ["last_name",
                                           "first_name",
                                           "birthday",
@@ -31,7 +37,7 @@ async def reg_driver_license() -> (sirius_sdk.CredentialDefinition, sirius_sdk.S
 
     ok, cred_def = await ledger.register_cred_def(
         cred_def=sirius_sdk.CredentialDefinition(tag='TAG', schema=schema),
-        submitter_did=GOV)
+        submitter_did=GOV["DID"])
 
     if not ok:
         print("Cred def was not registered")
@@ -65,19 +71,20 @@ async def issue_driver_license(cred_def: sirius_sdk.CredentialDefinition, schema
                     verkey=my_verkey
                 ),
                 connection_key=connection_key,
-                my_endpoint=simple_endpoint
+                my_endpoint=simple_endpoint,
+                logger=Logger()
             )
 
             success, p2p = await sm.create_connection(request)
             if success:
                 message = sirius_sdk.aries_rfc.Message(
-                    content="Welcome to the covid laboratory!",
+                    content="Welcome to the drive license issuer office!",
                     locale="en"
                 )
                 print(message)
                 await sirius_sdk.send_to(message, p2p)
 
-                issuer = sirius_sdk.aries_rfc.Issuer(p2p)
+                issuer = sirius_sdk.aries_rfc.Issuer(p2p, logger=Logger())
                 preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items()]
                 translation = [
                     sirius_sdk.aries_rfc.AttribTranslation("last_name", "Last Name"),
@@ -104,7 +111,7 @@ async def issue_driver_license(cred_def: sirius_sdk.CredentialDefinition, schema
             break
 
 
-async def verify():
+async def verify_driver_license():
     connection_key = await sirius_sdk.Crypto.create_key()
     endpoints = await sirius_sdk.endpoints()
     simple_endpoint = [e for e in endpoints if e.routing_keys == []][0]
@@ -126,7 +133,11 @@ async def verify():
                                                                    sirius_sdk.aries_rfc.ConnRequest):
             request: sirius_sdk.aries_rfc.ConnRequest = event.message
             did, verkey = await sirius_sdk.DID.create_and_store_my_did()
-            inviter = sirius_sdk.aries_rfc.Inviter(sirius_sdk.Pairwise.Me(did, verkey), connection_key, simple_endpoint)
+            inviter = sirius_sdk.aries_rfc.Inviter(
+                me=sirius_sdk.Pairwise.Me(did, verkey),
+                connection_key=connection_key,
+                my_endpoint=simple_endpoint,
+                logger=Logger())
             ok, pw = await inviter.create_connection(request)
             if not ok:
                 print("connection failed")
@@ -144,7 +155,7 @@ async def verify():
                 "version": "1.0",
                 "requested_attributes": {
                     "attr1_referent": {
-                        "name": "category",
+                        "name": "categories",
                         "restrictions": {
                             "issuer_did": GOV["DID"]
                         }
@@ -159,7 +170,7 @@ async def verify():
             }
 
             ver_ledger = await sirius_sdk.ledger(DKMS_NAME)
-            verifier = sirius_sdk.aries_rfc.Verifier(pw, ver_ledger)
+            verifier = sirius_sdk.aries_rfc.Verifier(pw, ver_ledger, logger=Logger())
             ok = await verifier.verify(proof_request=proof_request, comment="Verify driver license")
             if ok:
                 msg = sirius_sdk.aries_rfc.Message(
@@ -186,7 +197,8 @@ async def run():
             "place_of_residence": "SPb",
             "categories": "B"
         }
-        await issue_driver_license(driver_lic_cred_def, driver_lic_schema)
+        #await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+        await verify_driver_license()
 
 
 if __name__ == '__main__':
