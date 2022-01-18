@@ -10,7 +10,7 @@ WORKDIR /app
 ENV DJANGO_SETTINGS_MODULE='settings.production'
 
 HEALTHCHECK --interval=30s --timeout=15s --start-period=30s --retries=2 \
-  CMD curl -f http://localhost:$WSGI_PORT/maintenance/check_health/ || exit 1
+  CMD curl -f http://localhost/check_health || exit 1
 
 # FIRE!!!
 CMD echo "Wait database is ready" && /app/wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT-5432} --timeout=60 && \
