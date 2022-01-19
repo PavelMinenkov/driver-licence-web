@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'main',
     'police',
     'insurance',
-    'carsharing'
+    'carsharing',
+    'websockets'
 ]
 
 MIDDLEWARE = [

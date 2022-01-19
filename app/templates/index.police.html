@@ -7,15 +7,70 @@
     <meta charset="UTF-8">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
-    <link rel="stylesheet" href="{% static "jquery-3.4.1.min.js" %}">
+    <script src="{% static "jquery-3.4.1.min.js" %}"></script>
 </head>
 <body>
 
-  <div class="container">
-      <h1>Bootstrap Page for {{ title }} page</h1>
-      <p>This part is inside a .container class.</p>
-      <p>The .container class provides a responsive fixed width container.</p>
-  </div>
+<div class="container py-5">
+    <h1 class="text-center">Issue driver's license</h1>
+    <form action="#" method="post">
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
+                       value="Mikhail" required>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe" value="L."
+                       required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="birthday" class="form-label">Birthday</label>
+                <input type="date" class="form-control" name="birthday" id="birthday" value="1993-03-17" required>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="place_of_birth" class="form-label">Place of birth</label>
+                <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" placeholder="Moscow"
+                       value="SPb" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="issue_date" class="form-label">Issue date</label>
+                <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01" required>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="expiry_date" class="form-label">Expiry date</label>
+                <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="2021-01-01" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 mb-3">
+                <label for="photo" class="form-label">Photo</label>
+                <input class="form-control" type="file" id="photo" name="photo">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="place_of_residence" class="form-label">Place of residence</label>
+                <input type="text" class="form-control" name="place_of_residence" id="place_of_residence" value="SPb"
+                       required>
+            </div>
+            <div class="col-md-6 col-sm-12 mb-3">
+                <label for="categories" class="form-label">Expiry date</label>
+                <input type="text" class="form-control" name="categories" id="categories" value="B" required>
+            </div>
+        </div>
+        <div class="row justify-content-end">
+            <div class="px-3">
+                <button type="submit" class="btn btn-lg btn-success">Success</button>
+            </div>
+        </div>
+    </form>
+</div>
 
 </body>
 </html>
