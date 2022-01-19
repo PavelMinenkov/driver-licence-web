@@ -1,5 +1,6 @@
-channels==3.0.4
-Django==4.0.1
+channels==3.0
+channels_redis==3.2
+Django==3.1
 psycopg2-binary==2.9.3
 whitenoise==5.3.0
-uvicorn==0.17.0
+uvicorn==0.13.4
