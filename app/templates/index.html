@@ -25,7 +25,14 @@
   <script>
       $(function(){
          $("#test-qr-ntfy").click(function(){
-             console.log('clicked!')
+             console.log('clicked!');
+             ws = new WebSocket("ws://localhost/qr-notification");
+             ws.onmessage = function(event) {
+                 console.log(event.data);
+             }
+             ws.onclose = function(event) {
+                 console.log('Websocket connection is DIE !!!');
+             }
          });
       });
   </script>

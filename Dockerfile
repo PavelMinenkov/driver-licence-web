@@ -6,6 +6,7 @@ RUN pip install --upgrade pip && \
     chmod +x /app/wait-for-it.sh
 
 WORKDIR /app
+ENV PYTHONPATH=/app:$PYTHONPATH
 
 ENV DJANGO_SETTINGS_MODULE='settings.production'
 

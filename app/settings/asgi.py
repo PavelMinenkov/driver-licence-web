@@ -27,6 +27,6 @@ application = ProtocolTypeRouter({
 
     # WebSocket handler
     "websocket": URLRouter([
-        re_path("^qr-notification$", QRNotifications),
+        re_path("^qr-notification$", QRNotifications.as_asgi()),
     ])
 })
