@@ -6,7 +6,12 @@ from django.template import loader
 
 async def index(request):
     template = loader.get_template('index.html')
-    context = {}
+    # Websocket URL builder
+    host = request.headers.get('host', 'localhost')
+    scheme = 'ws' if request.scheme == 'http' else 'wss'
+    context = {
+        'ws_url': f'{scheme}://{host}/qr-notification'
+    }
     return HttpResponse(template.render(context, request))
 
 

@@ -27,7 +27,7 @@ async def index(request):
                     "birthday": form.cleaned_data['birthday'],
                     "place_of_birth": form.cleaned_data['place_of_birth'],
                     "issue_date": form.cleaned_data['issue_date'],
-                    #"photo": form.cleaned_data['photo'],
+                    # "photo": form.cleaned_data['photo'],
                     "place_of_residence": form.cleaned_data['place_of_residence'],
                     "categories": form.cleaned_data['categories']
                 }
