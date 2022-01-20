@@ -13,7 +13,7 @@ from django.urls import re_path
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
 
-from websockets.consumers import QRNotifications
+from main.consumers import QRNotifications
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.production')
