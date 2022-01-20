@@ -17,5 +17,4 @@ HEALTHCHECK --interval=30s --timeout=15s --start-period=30s --retries=2 \
 CMD echo "Wait database is ready" && /app/wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT-5432} --timeout=60 && \
   cd /app && \
   echo "Database migration" && python manage.py migrate && \
-  # echo "Run server" && uvicorn settings.asgi:application --reload --port=80 --host=0.0.0.0
-  echo "Run server" && python manage.py runserver 0.0.0.0:80
+  echo "Run server" && uvicorn settings.asgi:application --reload --port=80 --host=0.0.0.0
