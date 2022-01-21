@@ -33,7 +33,7 @@ async def index(request):
                 }
                 async with sirius_sdk.context(**settings.GOV['SDK']):
                     driver_lic_cred_def, driver_lic_schema = await reg_driver_license()
-                    await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+                    # TODO await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
 
         else:
             pass
