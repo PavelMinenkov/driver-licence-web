@@ -14,6 +14,7 @@ services:
 
   application:
     image: "socialsirius/demos:driver-licence-${VERSION}"
+    command: bash -c "sleep 30s; /app/run_tests.sh"
     environment:
       - TEAMCITY_VERSION
       - DATABASE_USER=postgres
