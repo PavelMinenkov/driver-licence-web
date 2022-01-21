@@ -171,3 +171,7 @@ RENT_A_CAR = {
     'DID': 'Jj9FsbrRkcrPrB4PFZFRg7',
     'VERKEY': 'AfNcBeyuPZ5WKbiNQKw9vogzkYQggU8BsaTyAaMDfkQv'
 }
+
+
+REDIS_HOST = os.getenv('REDIS_HOST')
+REDIS_PORT = os.getenv('REDIS_PORT')

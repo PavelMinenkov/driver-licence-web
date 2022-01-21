@@ -6,6 +6,7 @@ Includes **Policy**, **Insurance**, **Carsharing** actors.
   - DATABASE_PASSWORD: postgres database password
   - DATABASE_NAME: postgres database name
   - DATABASE_HOST: postgres host address
+  - REDIS_HOST, REDIS_PORT: redis server address
 
 ## Development 
 Pre-requirements:

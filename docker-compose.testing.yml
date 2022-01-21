@@ -1,0 +1,30 @@
+version: '2'
+services:
+
+  memcached:
+    image: memcached
+
+  redis:
+    image: redis:latest
+
+  db:
+    image: postgres:13.1
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  application:
+    image: "socialsirius/demos:driver-licence-${VERSION}"
+    environment:
+      - TEAMCITY_VERSION
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - DATABASE_NAME=postgres
+      - DATABASE_HOST=db
+      - REDIS_HOST=redis
+      - DJANGO_SETTINGS_MODULE=settings.develop
+    volumes:
+      - ./app:/app
+    depends_on:
+      - db
+      - memcached
+      - redis
