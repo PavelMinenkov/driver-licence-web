@@ -40,7 +40,8 @@ async def index(request):
         template = loader.get_template('index.police.html')
         context = {
             'title': 'Police',
-            'qr_url': qr_url
+            'qr_url': qr_url,
+            'is_authorized': False
         }
         response = HttpResponse(template.render(context, request))
         await browser_session.set_connection_key(response)
