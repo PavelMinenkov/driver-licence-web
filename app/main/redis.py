@@ -17,6 +17,8 @@ class ReadWriteTimeoutError(Exception):
 
 class CustomRedisChannel(ABC):
 
+    MANGLING_PREFIX = 'driver-licence-'
+
     def __init__(self):
         self._name = None
         self._address = None
@@ -31,7 +33,7 @@ class CustomRedisChannel(ABC):
     @classmethod
     async def create(cls, name: str, live_timeout: int = None):
         inst = cls()
-        inst._name = 'channel://' + name
+        inst._name = 'channel://' + cls.MANGLING_PREFIX + name
         inst._is_closed = False
         redis_server = settings.REDIS_HOST
         if settings.REDIS_PORT:
