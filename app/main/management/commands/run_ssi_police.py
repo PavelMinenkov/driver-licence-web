@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from time import sleep
 
 import sirius_sdk
@@ -29,7 +30,7 @@ class Command(BaseCommand):
                             )
                         )
                     )
-                except:
-                    pass
+                except Exception as e:
+                    logging.error(str(e))
                 print('Police: reconnect to cloud agent...')
                 sleep(3)
