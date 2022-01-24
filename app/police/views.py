@@ -13,10 +13,10 @@ from police.ssi import reg_driver_license, issue_driver_license
 async def index(request):
 
     async with sirius_sdk.context(**settings.GOV['SDK']):
-        browser_session = BrowserSession(request, cookie_path=request.path)
+        browser_session = BrowserSession(request, cookie_path=reverse('police-index'))
         connection_key = await browser_session.get_connection_key()
         if not connection_key:
-            await browser_session.create_connection_key()
+            connection_key = await browser_session.create_connection_key()
         qr_url = await browser_session.get_qr_code_url()
 
         if request.method == 'POST':
@@ -53,7 +53,7 @@ async def index(request):
 
 async def logout(request):
     async with sirius_sdk.context(**settings.GOV['SDK']):
-        browser_session = BrowserSession(request)
+        browser_session = BrowserSession(request, cookie_path=reverse('police-index'))
         response = HttpResponseRedirect(redirect_to=reverse('police-index'))
         await browser_session.logout(response)
         return response

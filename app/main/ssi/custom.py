@@ -3,6 +3,7 @@ import asyncio
 import logging
 
 import sirius_sdk
+from django.conf import settings
 
 from main.redis import RedisWriteOnlyChannel
 from main.authorization import login
@@ -50,7 +51,11 @@ async def run(me: sirius_sdk.Pairwise.Me):
     endpoints = await sirius_sdk.endpoints()
     my_endpoint = [e for e in endpoints if e.routing_keys == []][0]
     # Load balance input event stream among multiple listeners
-    listener = await sirius_sdk.subscribe(group_id='MAIN')
+    if settings.PRODUCTION:
+        group_id = 'PRODUCTION'
+    else:
+        group_id = 'DEBUG'
+    listener = await sirius_sdk.subscribe(group_id)
     async for event in listener:
         if isinstance(event.message, sirius_sdk.aries_rfc.ConnRequest):
             asyncio.ensure_future(

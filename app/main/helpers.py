@@ -88,5 +88,5 @@ class BrowserSession:
     async def logout(self, response: HttpResponse):
         connection_key = await self.get_connection_key()
         if connection_key:
-            response.delete_cookie(self.KEY, self.__connection_key)
+            response.delete_cookie(self.KEY, self.__cookie_path)
             await logout(connection_key)
