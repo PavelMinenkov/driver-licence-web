@@ -1,7 +1,8 @@
 from django.urls import path
 
-from .views import index
+from .views import index, logout
 
 urlpatterns = [
-    path('', index, name='police-index')
+    path('', index, name='police-index'),
+    path('logout', logout, name='police-logout')
 ]

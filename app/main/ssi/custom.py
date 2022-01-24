@@ -5,6 +5,7 @@ import logging
 import sirius_sdk
 
 from main.redis import RedisWriteOnlyChannel
+from main.authorization import login
 
 
 class RedisLogger:
@@ -78,6 +79,7 @@ async def establish_connection(
     success, p2p = await sm.create_connection(request)
     if success:
         await sirius_sdk.PairwiseList.ensure_exists(p2p)
+        await login(connection_key, p2p)
         await logger.done(success=True, comment='Connection established')
     else:
         await logger.done(success=False, comment=sm.problem_report.explain if sm.problem_report else '')

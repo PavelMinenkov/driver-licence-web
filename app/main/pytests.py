@@ -3,6 +3,7 @@ import uuid
 import pytest
 
 from main.redis import *
+from main.memcached import Memcached
 
 
 @pytest.mark.asyncio
@@ -147,3 +148,25 @@ async def test_transmit_bytes():
     await w_chan.write(b'Hello')
     _, value = await r_chan.read(3)
     assert value == b'Hello'
+
+
+@pytest.mark.asyncio
+async def test_memcached():
+    key = uuid.uuid4().hex
+    exp_time = 1
+    value = uuid.uuid4().hex
+
+    await Memcached.set(key, value, exp_time)
+    actual = await Memcached.get(key)
+    assert value == actual
+
+    await asyncio.sleep(1.1*exp_time)
+    actual = await Memcached.get(key)
+    assert actual is None, 'Expiration problem'
+
+    new_exp_time = 3*exp_time
+    await Memcached.set(key, value, exp_time)
+    await Memcached.touch(key, new_exp_time)
+    await asyncio.sleep(2 * exp_time)
+    actual = await Memcached.get(key)
+    assert value == actual, 'Touch call problem'

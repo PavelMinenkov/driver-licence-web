@@ -15,7 +15,11 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between mb-3">
         <h1 class="text-center">Issue driver's license</h1>
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Connect</button>
+        {% if auth %}
+            <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect [{{ auth.label }}]</a>
+        {% else %}
+            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Connect</button>
+        {% endif %}
     </div>
     <form method="post">
         {% csrf_token %}
@@ -99,7 +103,19 @@
          console.log('Websocket {{ ws_url }} is open')
      }
      ws.onmessage = function(event) {
-         console.log(event.data);
+         let payload = JSON.parse(event.data);
+         if (payload.type === "logger") {
+            console.log('Progress: ', payload.data.progress)
+         }
+         else if (payload.type === "done") {
+             if (payload.data.success) {
+                 // Update PAge to show logged UI
+                 location.reload();
+             }
+             else {
+                 alert(payload.data.comment);
+             }
+         }
      }
      ws.onclose = function(event) {
          console.log('Websocket connection is DIE !!!');

@@ -7,6 +7,7 @@ Includes **Policy**, **Insurance**, **Carsharing** actors.
   - DATABASE_NAME: postgres database name
   - DATABASE_HOST: postgres host address
   - REDIS_HOST, REDIS_PORT: redis server address
+  - MEMCACHED_HOST: address of memcached service
 
 ## Development 
 Pre-requirements:

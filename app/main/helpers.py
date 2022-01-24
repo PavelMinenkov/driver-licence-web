@@ -7,6 +7,8 @@ from django.http import HttpRequest, HttpResponse
 import sirius_sdk
 from sirius_sdk.agent.wallet.abstract import RetrieveRecordOptions
 
+from .authorization import auth, User, logout
+
 
 def extract_host(request: HttpRequest) -> str:
     return request.headers.get('host', 'localhost')
@@ -74,3 +76,17 @@ class BrowserSession:
         if self.__connection_key is None:
             await self.create_connection_key()
         response.set_cookie(self.KEY, self.__connection_key, path=self.__cookie_path)
+
+    async def auth(self) -> Optional[User]:
+        connection_key = await self.get_connection_key()
+        if connection_key:
+            user = await auth(connection_key)
+            return user
+        else:
+            return None
+
+    async def logout(self, response: HttpResponse):
+        connection_key = await self.get_connection_key()
+        if connection_key:
+            response.delete_cookie(self.KEY, self.__connection_key)
+            await logout(connection_key)

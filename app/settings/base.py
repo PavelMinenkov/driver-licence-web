@@ -175,3 +175,5 @@ RENT_A_CAR = {
 
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = os.getenv('REDIS_PORT')
+MEMCACHED_HOST = os.getenv('MEMCACHED_HOST')
+AUTH_LIVE_SECS = 60*15  # 15 minutes

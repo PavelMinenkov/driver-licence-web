@@ -22,6 +22,7 @@ services:
       - DATABASE_NAME=postgres
       - DATABASE_HOST=db
       - REDIS_HOST=redis
+      - MEMCACHED_HOST=memcached
       - DJANGO_SETTINGS_MODULE=settings.develop
     volumes:
       - ./app:/app

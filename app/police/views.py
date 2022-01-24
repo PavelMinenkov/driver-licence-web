@@ -1,4 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.template import loader
 from django.conf import settings
 
@@ -42,8 +43,17 @@ async def index(request):
             'title': 'Police',
             'qr_url': qr_url,
             'is_authorized': False,
-            'ws_url': build_websocket_url(request, path=f'/qr/{connection_key}')
+            'ws_url': build_websocket_url(request, path=f'/qr/{connection_key}'),
+            'auth': await browser_session.auth()
         }
         response = HttpResponse(template.render(context, request))
         await browser_session.set_connection_key(response)
+        return response
+
+
+async def logout(request):
+    async with sirius_sdk.context(**settings.GOV['SDK']):
+        browser_session = BrowserSession(request)
+        response = HttpResponseRedirect(redirect_to=reverse('police-index'))
+        await browser_session.logout(response)
         return response
