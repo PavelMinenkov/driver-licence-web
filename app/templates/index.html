@@ -11,15 +11,39 @@
 </head>
 <body>
 
-  <div class="container">
-      <h1>Demo Index page</h1>
-      <h3>Actors:</h3>
-      <ul>
-         <li><a href="{% url 'police-index' %}">Police</a></li>
-         <li><a href="{% url 'insurance-index' %}">Insurance</a></li>
-         <li><a href="{% url 'carsharing-index' %}">CarSharing</a></li>
-      </ul>
-  </div>
+<div class="container">
+    <div class="d-flex align-items-center" style="height: 100vh">
+        <div class="row align-items-stretch">
+        <div class="col-sm-4">
+            <div class="card bg-warning h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Police</h5>
+                    <p class="card-text">Creating a request for the issuance of a driver's license.</p>
+                    <a href="{% url 'police-index' %}" class="btn btn-warning">Go to page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-success h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Insurance</h5>
+                    <p class="card-text">Creating a request for issuing insurance.</p>
+                    <a href="{% url 'insurance-index' %}" class="btn btn-success">Go to page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card text-white bg-primary h-100">
+                <div class="card-body">
+                    <h5 class="card-title">CarSharing</h5>
+                    <p class="card-text">Creating a request for issuing a car.</p>
+                    <a href="{% url 'carsharing-index' %}" class="btn btn-primary">Go to page</a>
+                </div>
+            </div>
+        </div>
+</div>
+    </div>
+</div>
 
 </body>
 </html>

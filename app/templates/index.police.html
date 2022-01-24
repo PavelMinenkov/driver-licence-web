@@ -13,7 +13,12 @@
 <body>
 
 <div class="container py-5">
-    <div class="d-flex justify-content-between mb-3">
+    <div class="row">
+        <div class="col-md-2">
+            <img class="img-fluid" src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png" alt="Police logo">
+        </div>
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between mb-3">
         <h1 class="text-center">Issue driver's license</h1>
         {% if auth %}
             <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect [{{ auth.label }}]</a>
@@ -21,7 +26,7 @@
             <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Connect</button>
         {% endif %}
     </div>
-    <form method="post">
+            <form method="post">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-6 col-sm-12 mb-3">
@@ -75,10 +80,16 @@
         </div>
         <div class="row justify-content-end">
             <div class="px-3">
-                <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
+                {% if is_authorized %}
+                    <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
+                {% else %}
+                    <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential</button>
+                {% endif %}
             </div>
         </div>
     </form>
+        </div>
+    </div>
 </div>
 <div class="modal fade" id="display_qr_code" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
