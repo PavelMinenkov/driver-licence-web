@@ -1,10 +1,27 @@
 import uuid
 from typing import Optional
 
+from django.conf import settings
 from django.http import HttpRequest, HttpResponse
 
 import sirius_sdk
 from sirius_sdk.agent.wallet.abstract import RetrieveRecordOptions
+
+
+def extract_host(request: HttpRequest) -> str:
+    return request.headers.get('host', 'localhost')
+
+
+def extract_scheme(request: HttpRequest) -> str:
+    return 'ws' if (request.scheme == 'http' and not settings.PRODUCTION) else 'wss'
+
+
+def build_websocket_url(request: HttpRequest, path: str) -> str:
+    host = extract_host(request)
+    scheme = extract_scheme(request)
+    if path.startswith('/'):
+        path = path[1:]
+    return f'{scheme}://{host}/{path}'
 
 
 class BrowserSession:

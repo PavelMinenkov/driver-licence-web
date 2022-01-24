@@ -1,28 +1,48 @@
 import json
 import asyncio
+import logging
 
 import sirius_sdk
 
 from main.redis import RedisWriteOnlyChannel
 
 
-class Logger:
+class RedisLogger:
 
     def __init__(self, redis_pub_name: str):
         self.__redis_pub_name = redis_pub_name
         self.__redis = None
 
     async def __call__(self, *args, **kwargs):
-        if self.__redis is not None:
-            self.__redis = await RedisWriteOnlyChannel.create(self.__redis_pub_name)
+        redis_channel = await self._get_redis_channel()
         data = kwargs
         print(json.dumps(data, indent=2, sort_keys=True))
-        await self.__redis.write(
+        success = await redis_channel.write(
             {
                 'type': 'logger',
                 'data': kwargs
             }
         )
+        if not success:
+            logging.warning(f'Redis write-only channel [{redis_channel.address}] returned False, no recipients on read side')
+
+    async def _get_redis_channel(self) -> RedisWriteOnlyChannel:
+        if self.__redis is None:
+            self.__redis = await RedisWriteOnlyChannel.create(self.__redis_pub_name)
+        return self.__redis
+
+    async def done(self, success: bool, comment: str = None):
+        redis_channel = await self._get_redis_channel()
+        await redis_channel.write(
+            {
+                'type': 'done',
+                'data': {
+                    'success': success,
+                    'comment': comment
+                }
+            }
+        )
+        await redis_channel.close()
 
 
 async def run(me: sirius_sdk.Pairwise.Me):
@@ -48,12 +68,16 @@ async def establish_connection(
         connection_key: str,
         request: sirius_sdk.aries_rfc.ConnRequest
 ):
+    logger = RedisLogger(connection_key)
     sm = sirius_sdk.aries_rfc.Inviter(
         me=me,
         connection_key=connection_key,
         my_endpoint=my_endpoint,
-        logger=Logger(connection_key)
+        logger=logger
     )
     success, p2p = await sm.create_connection(request)
     if success:
         await sirius_sdk.PairwiseList.ensure_exists(p2p)
+        await logger.done(success=True, comment='Connection established')
+    else:
+        await logger.done(success=False, comment=sm.problem_report.explain if sm.problem_report else '')

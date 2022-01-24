@@ -19,22 +19,7 @@
          <li><a href="{% url 'insurance-index' %}">Insurance</a></li>
          <li><a href="{% url 'carsharing-index' %}">CarSharing</a></li>
       </ul>
-      <button id="test-qr-ntfy">Test QR Notifications</button>
   </div>
 
-  <script>
-      $(function(){
-         $("#test-qr-ntfy").click(function(){
-             console.log('clicked!');
-             ws = new WebSocket("{{ ws_url }}");
-             ws.onmessage = function(event) {
-                 console.log(event.data);
-             }
-             ws.onclose = function(event) {
-                 console.log('Websocket connection is DIE !!!');
-             }
-         });
-      });
-  </script>
 </body>
 </html>

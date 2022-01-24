@@ -4,7 +4,7 @@ from django.conf import settings
 
 import sirius_sdk
 
-from main.helpers import BrowserSession
+from main.helpers import BrowserSession, build_websocket_url
 from police.forms import IssueDriverLicenseForm
 from police.ssi import reg_driver_license, issue_driver_license
 
@@ -41,7 +41,8 @@ async def index(request):
         context = {
             'title': 'Police',
             'qr_url': qr_url,
-            'is_authorized': False
+            'is_authorized': False,
+            'ws_url': build_websocket_url(request, path=f'/qr/{connection_key}')
         }
         response = HttpResponse(template.render(context, request))
         await browser_session.set_connection_key(response)

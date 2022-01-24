@@ -15,7 +15,7 @@
 <div class="container py-5">
     <div class="d-flex justify-content-between mb-3">
         <h1 class="text-center">Issue driver's license</h1>
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Display QR Code</button>
+        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Connect</button>
     </div>
     <form method="post">
         {% csrf_token %}
@@ -71,7 +71,7 @@
         </div>
         <div class="row justify-content-end">
             <div class="px-3">
-                <button type="submit" class="btn btn-lg btn-success">Success</button>
+                <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
             </div>
         </div>
     </form>
@@ -92,4 +92,18 @@
     </div>
 </div>
 </body>
+<script>
+  $(function(){
+     let ws = new WebSocket("{{ ws_url }}");
+     ws.onopen = function(event){
+         console.log('Websocket {{ ws_url }} is open')
+     }
+     ws.onmessage = function(event) {
+         console.log(event.data);
+     }
+     ws.onclose = function(event) {
+         console.log('Websocket connection is DIE !!!');
+     }
+  });
+</script>
 </html>

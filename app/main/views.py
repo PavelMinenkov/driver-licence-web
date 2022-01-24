@@ -4,14 +4,16 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.template import loader
 
+from .helpers import extract_host, extract_scheme
+
 
 async def index(request):
     template = loader.get_template('index.html')
     # Websocket URL builder
-    host = request.headers.get('host', 'localhost')
-    scheme = 'ws' if (request.scheme == 'http' and not settings.PRODUCTION) else 'wss'
+    host = extract_host(request)
+    scheme = extract_scheme(request)
     context = {
-        'ws_url': f'{scheme}://{host}/qr-notification'
+        'ws_url': f'{scheme}://{host}/qr/AfNcBeyuPZ5WKbiNQKw9vogzkYQggU8BsaTyAaMDfkQv'
     }
     return HttpResponse(template.render(context, request))
 
