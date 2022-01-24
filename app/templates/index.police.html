@@ -80,7 +80,7 @@
         </div>
         <div class="row justify-content-end">
             <div class="px-3">
-                {% if is_authorized %}
+                {% if auth %}
                     <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
                 {% else %}
                     <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential</button>
