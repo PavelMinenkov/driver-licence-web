@@ -7,6 +7,7 @@ from django.http import HttpRequest, HttpResponse
 import sirius_sdk
 from sirius_sdk.agent.wallet.abstract import RetrieveRecordOptions
 
+from main.memcached import Memcached
 from .authorization import auth, User, logout
 
 
@@ -30,6 +31,7 @@ class BrowserSession:
 
     KEY = 'connection_key'
     WALLET_TYPE = 'connection_keys'
+    MEMCACHED_NAMESPACE = 'driver-licence-browser-session-'
 
     def __init__(self, request: HttpRequest, cookie_path: str = '/'):
         self.__request = request
@@ -76,6 +78,12 @@ class BrowserSession:
         if self.__connection_key is None:
             await self.create_connection_key()
         response.set_cookie(self.KEY, self.__connection_key, path=self.__cookie_path)
+        await Memcached.set(self.__connection_key, 'on', exp_time=settings.AUTH_LIVE_SECS, namespace=self.MEMCACHED_NAMESPACE)
+
+    @classmethod
+    async def is_session_exists(cls, connection_key) -> bool:
+        value = await Memcached.get(connection_key, namespace=cls.MEMCACHED_NAMESPACE)
+        return value == 'on'
 
     async def auth(self) -> Optional[User]:
         connection_key = await self.get_connection_key()

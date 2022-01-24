@@ -7,6 +7,7 @@ from django.conf import settings
 
 from main.redis import RedisWriteOnlyChannel
 from main.authorization import login
+from main.helpers import BrowserSession
 
 
 class RedisLogger:
@@ -58,14 +59,16 @@ async def run(me: sirius_sdk.Pairwise.Me):
     listener = await sirius_sdk.subscribe(group_id)
     async for event in listener:
         if isinstance(event.message, sirius_sdk.aries_rfc.ConnRequest):
-            asyncio.ensure_future(
-                establish_connection(
-                    me=me,
-                    my_endpoint=my_endpoint,
-                    connection_key=event.recipient_verkey,
-                    request=event.message
+            is_exists = await BrowserSession.is_session_exists(event.recipient_verkey)
+            if is_exists:
+                asyncio.ensure_future(
+                    establish_connection(
+                        me=me,
+                        my_endpoint=my_endpoint,
+                        connection_key=event.recipient_verkey,
+                        request=event.message
+                    )
                 )
-            )
 
 
 async def establish_connection(
