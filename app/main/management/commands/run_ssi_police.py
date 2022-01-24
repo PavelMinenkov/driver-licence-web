@@ -1,4 +1,5 @@
 import asyncio
+from time import sleep
 
 import sirius_sdk
 from ilock import ILock
@@ -18,11 +19,17 @@ class Command(BaseCommand):
             print(self.help)
             print('********************************************')
             sirius_sdk.init(**settings.GOV['SDK'])
-            asyncio.get_event_loop().run_until_complete(
-                run(
-                    me=sirius_sdk.Pairwise.Me(
-                        did=settings.GOV['DID'],
-                        verkey=settings.GOV['VERKEY']
+            while True:
+                try:
+                    asyncio.get_event_loop().run_until_complete(
+                        run(
+                            me=sirius_sdk.Pairwise.Me(
+                                did=settings.GOV['DID'],
+                                verkey=settings.GOV['VERKEY']
+                            )
+                        )
                     )
-                )
-            )
+                except:
+                    pass
+                print('Police: reconnect to cloud agent...')
+                sleep(3)
