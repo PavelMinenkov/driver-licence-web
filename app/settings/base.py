@@ -172,6 +172,8 @@ RENT_A_CAR = {
     'VERKEY': 'AfNcBeyuPZ5WKbiNQKw9vogzkYQggU8BsaTyAaMDfkQv'
 }
 
+DKMS_NAME = 'test_network'
+
 
 REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = os.getenv('REDIS_PORT')

@@ -1,14 +1,8 @@
 import sirius_sdk
 from django.conf import settings
+from main.ssi.custom import RedisLogger
 
-
-DKMS_NAME = 'test_network'
-
-
-class Logger:
-
-    async def __call__(self, *args, **kwargs):
-        print(dict(**kwargs))
+from app.settings.base import DKMS_NAME
 
 
 async def fetch_driver_license_schema() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
@@ -29,30 +23,22 @@ async def fetch_driver_license_schema() -> (sirius_sdk.CredentialDefinition, sir
     schema = await ledger.ensure_schema_exists(anon_schema, settings.GOV["DID"])
     if not schema:
         ok, schema = await ledger.register_schema(anon_schema, settings.GOV["DID"])
-        if ok:
-            print("Driver license schema was registered successfully")
-        else:
-            print("Driver license schema was not registered")
+        if not ok:
             return None, None
-
-    else:
-        print("Driver license schema is already exists in the ledger")
 
     ok, cred_def = await ledger.register_cred_def(
         cred_def=sirius_sdk.CredentialDefinition(tag='TAG', schema=schema),
         submitter_did=settings.GOV["DID"])
 
-    if not ok:
-        print("Cred def was not registered")
-
     return cred_def, schema
 
 
 async def issue_driver_license(
-        to: sirius_sdk.Pairwise, values: dict
+        connection_key: str, to: sirius_sdk.Pairwise, values: dict
 ):
     cred_def, schema = await fetch_driver_license_schema()
-    issuer = sirius_sdk.aries_rfc.Issuer(to, logger=Logger())
+    logger = RedisLogger(connection_key)
+    issuer = sirius_sdk.aries_rfc.Issuer(to, logger=logger)
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items()]
     translation = [
         sirius_sdk.aries_rfc.AttribTranslation("last_name", "Last Name"),
