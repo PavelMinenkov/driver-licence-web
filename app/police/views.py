@@ -6,8 +6,9 @@ from django.conf import settings
 import sirius_sdk
 
 from main.helpers import BrowserSession, build_websocket_url
+from main.authorization import auth
 from police.forms import IssueDriverLicenseForm
-from police.ssi import reg_driver_license, issue_driver_license
+from police.ssi import issue_driver_license
 
 
 async def index(request):
@@ -33,11 +34,11 @@ async def index(request):
                     "categories": form.cleaned_data['categories']
                 }
                 async with sirius_sdk.context(**settings.GOV['SDK']):
-                    driver_lic_cred_def, driver_lic_schema = await reg_driver_license()
-                    # TODO await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+                    conn_key = await browser_session.get_connection_key()
+                    user = await auth(conn_key)
+                    pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
+                    await issue_driver_license(pw, values)
 
-        else:
-            pass
         template = loader.get_template('index.police.html')
         context = {
             'title': 'Police',

@@ -11,7 +11,7 @@ class Logger:
         print(dict(**kwargs))
 
 
-async def reg_driver_license() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
+async def fetch_driver_license_schema() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
     schema_name = "Driver license"
     schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(settings.GOV["DID"], schema_name, '1.0',
                                          ["last_name",
@@ -49,17 +49,9 @@ async def reg_driver_license() -> (sirius_sdk.CredentialDefinition, sirius_sdk.S
 
 
 async def issue_driver_license(
-        to: sirius_sdk.Pairwise,
-        cred_def: sirius_sdk.CredentialDefinition,
-        schema: sirius_sdk.Schema, values: dict
+        to: sirius_sdk.Pairwise, values: dict
 ):
-    message = sirius_sdk.aries_rfc.Message(
-        content="Welcome to the drive license issuer office!",
-        locale="en"
-    )
-    print(message)
-    await sirius_sdk.send_to(message, to)
-
+    cred_def, schema = await fetch_driver_license_schema()
     issuer = sirius_sdk.aries_rfc.Issuer(to, logger=Logger())
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items()]
     translation = [
@@ -73,7 +65,7 @@ async def issue_driver_license(
         sirius_sdk.aries_rfc.AttribTranslation("categories", "Categories")
     ]
 
-    ok = await issuer.issue(
+    await issuer.issue(
         values=values,
         schema=schema,
         cred_def=cred_def,
@@ -82,5 +74,3 @@ async def issue_driver_license(
         comment="Here is your driver license",
         locale="en"
     )
-    if ok:
-        print("Driver license was successfully issued")
