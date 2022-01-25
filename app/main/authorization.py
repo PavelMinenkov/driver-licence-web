@@ -10,6 +10,7 @@ from main.memcached import Memcached
 @dataclass
 class User:
     did: str
+    verkey: str
     label: str
 
 
@@ -19,6 +20,7 @@ AUTH_NAMESPACE = 'auth-driver-licence'
 async def login(connection_key: str, p2p: sirius_sdk.Pairwise) -> User:
     kwargs = {
         'did': p2p.their.did,
+        'verkey': p2p.their.verkey,
         'label': p2p.their.label
     }
     await Memcached.set(
