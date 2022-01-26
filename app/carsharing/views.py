@@ -8,7 +8,7 @@ import sirius_sdk
 from main.helpers import BrowserSession, build_websocket_url
 from main.authorization import auth
 from carsharing.forms import CarRentalForm
-form carsharing.ssi import check_driver_license, issue_confirmation
+from carsharing.ssi import check_driver_license, issue_confirmation
 
 
 async def index(request):
