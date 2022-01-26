@@ -2,8 +2,6 @@ import sirius_sdk
 from django.conf import settings
 from main.ssi.custom import RedisLogger
 
-from app.settings.base import DKMS_NAME
-
 
 async def fetch_driver_license_schema() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
     schema_name = "Driver license"
@@ -19,7 +17,7 @@ async def fetch_driver_license_schema() -> (sirius_sdk.CredentialDefinition, sir
                                           "place_of_residence",
                                           "categories"
                                           ])
-    ledger = await sirius_sdk.ledger(DKMS_NAME)
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
     schema = await ledger.ensure_schema_exists(anon_schema, settings.GOV["DID"])
     if not schema:
         ok, schema = await ledger.register_schema(anon_schema, settings.GOV["DID"])

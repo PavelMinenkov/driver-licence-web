@@ -1,5 +1,5 @@
 import sirius_sdk
-from settings.base import GOV, RENT_A_CAR, DKMS_NAME
+from django.conf import settings
 from main.ssi.custom import RedisLogger
 
 
@@ -13,7 +13,7 @@ async def fetch_vehicle_licence_schema() -> (sirius_sdk.CredentialDefinition, si
                                           "car_name",
                                           "car_reg_number"
                                           ])
-    ledger = await sirius_sdk.ledger(DKMS_NAME)
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
     schema = await ledger.ensure_schema_exists(anon_schema, settings.RENT_A_CAR["DID"])
     if not schema:
         ok, schema = await ledger.register_schema(anon_schema, settings.RENT_A_CAR["DID"])
@@ -36,25 +36,25 @@ async def check_driver_license(connection_key: str, pairwise: sirius_sdk.Pairwis
             "attr1_referent": {
                 "name": "categories",
                 "restrictions": {
-                    "issuer_did": GOV["DID"]
+                    "issuer_did": settings.GOV["DID"]
                 }
             },
             "attr2_referent": {
                 "name": "last_name",
                 "restrictions": {
-                    "issuer_did": GOV["DID"]
+                    "issuer_did": settings.GOV["DID"]
                 }
             },
             "attr2_referent": {
                 "name": "first_name",
                 "restrictions": {
-                    "issuer_did": GOV["DID"]
+                    "issuer_did": settings.GOV["DID"]
                 }
             }
         }
     }
 
-    ledger = await sirius_sdk.ledger(DKMS_NAME)
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
     logger = RedisLogger(connection_key)
     verifier = sirius_sdk.aries_rfc.Verifier(pairwise, ledger, logger=logger)
     ok = await verifier.verify(proof_request=proof_request, comment="Verify driver license")
