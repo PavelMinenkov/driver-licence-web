@@ -13,7 +13,7 @@ from police.ssi import issue_driver_license
 
 async def index(request):
 
-    async with sirius_sdk.context(**settings.GOV['SDK']):
+    async with sirius_sdk.context(**settings.POLICE['SDK']):
         browser_session = BrowserSession(request, cookie_path=reverse('police-index'))
         connection_key = await browser_session.get_connection_key()
         if not connection_key:
@@ -33,7 +33,7 @@ async def index(request):
                     "place_of_residence": form.cleaned_data['place_of_residence'],
                     "categories": form.cleaned_data['categories']
                 }
-                async with sirius_sdk.context(**settings.GOV['SDK']):
+                async with sirius_sdk.context(**settings.POLICE['SDK']):
                     conn_key = await browser_session.get_connection_key()
                     user = await auth(conn_key)
                     pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
@@ -53,7 +53,7 @@ async def index(request):
 
 
 async def logout(request):
-    async with sirius_sdk.context(**settings.GOV['SDK']):
+    async with sirius_sdk.context(**settings.POLICE['SDK']):
         browser_session = BrowserSession(request, cookie_path=reverse('police-index'))
         response = HttpResponseRedirect(redirect_to=reverse('police-index'))
         await browser_session.logout(response)

@@ -1,30 +1,6 @@
 import sirius_sdk
 from django.conf import settings
-from main.ssi.custom import RedisLogger
-
-
-async def fetch_vehicle_licence_schema() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
-    schema_name = "Vehicle licence"
-    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(settings.RENT_A_CAR["DID"], schema_name, '1.0',
-                                         ["last_name",
-                                          "first_name",
-                                          "pick_up_date",
-                                          "drop_off_date",
-                                          "car_name",
-                                          "car_reg_number"
-                                          ])
-    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
-    schema = await ledger.ensure_schema_exists(anon_schema, settings.RENT_A_CAR["DID"])
-    if not schema:
-        ok, schema = await ledger.register_schema(anon_schema, settings.RENT_A_CAR["DID"])
-        if not ok:
-            return None, None
-
-    ok, cred_def = await ledger.register_cred_def(
-        cred_def=sirius_sdk.CredentialDefinition(tag='TAG', schema=schema),
-        submitter_did=settings.RENT_A_CAR["DID"])
-
-    return cred_def, schema
+from main.ssi.custom import RedisLogger, fetch_schema
 
 
 async def check_driver_license(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
@@ -36,19 +12,19 @@ async def check_driver_license(connection_key: str, pairwise: sirius_sdk.Pairwis
             "attr1_referent": {
                 "name": "categories",
                 "restrictions": {
-                    "issuer_did": settings.GOV["DID"]
+                    "issuer_did": settings.POLICE["DID"]
                 }
             },
             "attr2_referent": {
                 "name": "last_name",
                 "restrictions": {
-                    "issuer_did": settings.GOV["DID"]
+                    "issuer_did": settings.POLICE["DID"]
                 }
             },
-            "attr2_referent": {
+            "attr3_referent": {
                 "name": "first_name",
                 "restrictions": {
-                    "issuer_did": settings.GOV["DID"]
+                    "issuer_did": settings.POLICE["DID"]
                 }
             }
         }
@@ -65,7 +41,19 @@ async def check_driver_license(connection_key: str, pairwise: sirius_sdk.Pairwis
 
 
 async def issue_confirmation(connection_key: str, pairwise: sirius_sdk.Pairwise, values: dict):
-    cred_def, schema = await fetch_vehicle_licence_schema()
+    cred_def, schema = await fetch_schema(
+        name="Vehicle licence",
+        version="1.0",
+        attrs=[
+            "last_name",
+            "first_name",
+            "pick_up_date",
+            "drop_off_date",
+            "car_name",
+            "car_reg_number"
+        ],
+        did=settings.RENT_A_CAR["DID"]
+    )
     logger = RedisLogger(connection_key)
     issuer = sirius_sdk.aries_rfc.Issuer(pairwise, logger=logger)
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items()]

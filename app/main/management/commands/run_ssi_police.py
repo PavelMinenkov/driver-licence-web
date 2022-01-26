@@ -19,14 +19,14 @@ class Command(BaseCommand):
             print('********************************************')
             print(self.help)
             print('********************************************')
-            sirius_sdk.init(**settings.GOV['SDK'])
+            sirius_sdk.init(**settings.POLICE['SDK'])
             while True:
                 try:
                     asyncio.get_event_loop().run_until_complete(
                         run(
                             me=sirius_sdk.Pairwise.Me(
-                                did=settings.GOV['DID'],
-                                verkey=settings.GOV['VERKEY']
+                                did=settings.POLICE['DID'],
+                                verkey=settings.POLICE['VERKEY']
                             )
                         )
                     )

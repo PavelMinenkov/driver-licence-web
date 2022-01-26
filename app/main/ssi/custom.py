@@ -1,6 +1,7 @@
 import json
 import asyncio
 import logging
+from typing import List
 
 import sirius_sdk
 from django.conf import settings
@@ -91,3 +92,23 @@ async def establish_connection(
         await logger.done(success=True, comment='Connection established')
     else:
         await logger.done(success=False, comment=sm.problem_report.explain if sm.problem_report else '')
+
+
+async def fetch_schema(
+        name: str,
+        version: str,
+        attrs: List[str],
+        did: str) -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
+    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(did, name, version, attrs)
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
+    schema = await ledger.ensure_schema_exists(anon_schema, did)
+    if not schema:
+        ok, schema = await ledger.register_schema(anon_schema, did)
+        if not ok:
+            return None, None
+
+    ok, cred_def = await ledger.register_cred_def(
+        cred_def=sirius_sdk.CredentialDefinition(tag='TAG', schema=schema),
+        submitter_did=settings.POLICE["DID"])
+
+    return cred_def, schema
