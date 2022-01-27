@@ -43,7 +43,6 @@ async def index(request):
         context = {
             'title': 'Police',
             'qr_url': qr_url,
-            'is_authorized': False,
             'ws_url': build_websocket_url(request, path=f'/qr/{connection_key}'),
             'auth': await browser_session.auth()
         }
