@@ -8,96 +8,110 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
     <script src="{% static "jquery-3.4.1.min.js" %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
 <div class="container py-5">
     <div class="row">
         <div class="col-md-2">
-            <img class="img-fluid" src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png" alt="Police logo">
+            <img class="img-fluid" src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png"
+                 alt="Police logo">
         </div>
         <div class="col-md-10">
-            <div class="d-flex justify-content-between mb-3">
-        <h1 class="text-center">Issue driver's license</h1>
-        {% if auth %}
-            <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect [{{ auth.label }}]</a>
-        {% else %}
-            <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#display_qr_code">Connect</button>
-        {% endif %}
-    </div>
-            <form method="post">
-        {% csrf_token %}
-        <div class="row">
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="first_name" class="form-label">First Name</label>
-                <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
-                       value="Mikhail" required>
-            </div>
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="last_name" class="form-label">Last Name</label>
-                <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe" value="L."
-                       required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="birthday" class="form-label">Birthday</label>
-                <input type="date" class="form-control" name="birthday" id="birthday" value="1993-03-17" required>
-            </div>
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="place_of_birth" class="form-label">Place of birth</label>
-                <input type="text" class="form-control" name="place_of_birth" id="place_of_birth" placeholder="Moscow"
-                       value="SPb" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="issue_date" class="form-label">Issue date</label>
-                <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01" required>
-            </div>
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="expiry_date" class="form-label">Expiry date</label>
-                <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="2031-01-01" required>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-12 mb-3">
-                <label for="photo" class="form-label">Photo</label>
-                <input class="form-control" type="file" id="photo" name="photo">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="place_of_residence" class="form-label">Place of residence</label>
-                <input type="text" class="form-control" name="place_of_residence" id="place_of_residence" value="SPb"
-                       required>
-            </div>
-            <div class="col-md-6 col-sm-12 mb-3">
-                <label for="categories" class="form-label">Categories</label>
-                <input type="text" class="form-control" name="categories" id="categories" value="B" required>
-            </div>
-        </div>
-        <div class="row justify-content-end">
-            <div class="px-3">
+            <div class="d-flex justify-content-between mb-3 align-items-center">
+                <h1 class="text-center">Issue driver's license</h1>
                 {% if auth %}
-                    <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
+                    <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect
+                        [{{ auth.label }}]</a>
                 {% else %}
-                    <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential</button>
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#display_qr_code">Connect
+                    </button>
                 {% endif %}
             </div>
-        </div>
-    </form>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
+                               value="Mikhail" required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe"
+                               value="L."
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="birthday" class="form-label">Birthday</label>
+                        <input type="date" class="form-control" name="birthday" id="birthday" value="1993-03-17"
+                               required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="place_of_birth" class="form-label">Place of birth</label>
+                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth"
+                               placeholder="Moscow"
+                               value="SPb" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="issue_date" class="form-label">Issue date</label>
+                        <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01"
+                               required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="expiry_date" class="form-label">Expiry date</label>
+                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="2031-01-01"
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mb-3">
+                        <label for="photo" class="form-label">Photo</label>
+                        <input class="form-control" type="file" id="photo" name="photo">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="place_of_residence" class="form-label">Place of residence</label>
+                        <input type="text" class="form-control" name="place_of_residence" id="place_of_residence"
+                               value="SPb"
+                               required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="categories" class="form-label">Categories</label>
+                        <input type="text" class="form-control" name="categories" id="categories" value="B" required>
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="px-3">
+                        {% if auth %}
+                            <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<div class="modal fade" id="display_qr_code" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label" aria-hidden="true">
+<div class="modal fade" id="display_qr_code" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label"
+     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">QR Code</h5>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="auth_modal_body">
                 <img class="img-fluid" src="{{ qr_url }}" alt="QR code">
             </div>
             <div class="modal-footer">
@@ -108,29 +122,30 @@
 </div>
 </body>
 <script>
-  $(function(){
-     let ws = new WebSocket("{{ ws_url }}");
-     ws.onopen = function(event){
-         console.log('Websocket {{ ws_url }} is open')
-     }
-     ws.onmessage = function(event) {
-         let payload = JSON.parse(event.data);
-         if (payload.type === "logger") {
-            console.log('Progress: ', payload.data.progress)
-         }
-         else if (payload.type === "done") {
-             if (payload.data.success) {
-                 // Update PAge to show logged UI
-                 location.reload();
-             }
-             else {
-                 alert(payload.data.comment);
-             }
-         }
-     }
-     ws.onclose = function(event) {
-         console.log('Websocket connection is DIE !!!');
-     }
-  });
+    $(function () {
+        let ws = new WebSocket("{{ ws_url }}");
+        ws.onopen = function (event) {
+            console.log('Websocket {{ ws_url }} is open')
+        }
+        ws.onmessage = function (event) {
+            let payload = JSON.parse(event.data);
+            if (payload.type === "logger") {
+                let body = $('#auth_modal_body')
+                body.html(
+                    '<div class="d-flex align-items-center"><strong>Loading...</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>' +
+                    '<div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" style="width: '+ payload.data.progress + '%;" aria-valuenow="'+ payload.data.progress +'" aria-valuemin="0" aria-valuemax="100">'+ payload.data.progress +'%</div></div>')
+            } else if (payload.type === "done") {
+                if (payload.data.success) {
+                    // Update PAge to show logged UI
+                    location.reload();
+                } else {
+                    alert(payload.data.comment);
+                }
+            }
+        }
+        ws.onclose = function (event) {
+            console.log('Websocket connection is DIE !!!');
+        }
+    });
 </script>
 </html>
