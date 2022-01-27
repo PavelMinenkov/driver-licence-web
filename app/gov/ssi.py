@@ -3,11 +3,11 @@ from django.conf import settings
 from main.ssi.custom import RedisLogger, fetch_schema
 
 
-async def issue_driver_license(
+async def issue_passport(
         connection_key: str, to: sirius_sdk.Pairwise, values: dict
 ):
     cred_def, schema = await fetch_schema(
-        name="Driver licence",
+        name="Passport",
         version="1.0",
         attrs=[
             "last_name",
@@ -16,14 +16,10 @@ async def issue_driver_license(
             "place_of_birth",
             "issue_date",
             "expiry_date",
-            "issuer_code",
-            "photo",
-            "place_of_residence",
-            "categories"
+            "photo"
         ],
-        did=settings.POLICE["DID"]
+        did=settings.GOV["DID"]
     )
-    values["issuer_code"] = "123"
     logger = RedisLogger(connection_key)
     issuer = sirius_sdk.aries_rfc.Issuer(to, logger=logger)
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items()]
@@ -33,11 +29,7 @@ async def issue_driver_license(
         sirius_sdk.aries_rfc.AttribTranslation("birthday", "Birthday"),
         sirius_sdk.aries_rfc.AttribTranslation("place_of_birth", "Place of birth"),
         sirius_sdk.aries_rfc.AttribTranslation("issue_date", "Issue date"),
-        sirius_sdk.aries_rfc.AttribTranslation("expiry_date", "Expiry date"),
-        sirius_sdk.aries_rfc.AttribTranslation("issuer_code", "Issuer code"),
-        sirius_sdk.aries_rfc.AttribTranslation("photo", "Photo"),
-        sirius_sdk.aries_rfc.AttribTranslation("place_of_residence", "Place of residence"),
-        sirius_sdk.aries_rfc.AttribTranslation("categories", "Categories")
+        sirius_sdk.aries_rfc.AttribTranslation("photo", "Photo")
     ]
 
     await issuer.issue(
@@ -46,6 +38,6 @@ async def issue_driver_license(
         cred_def=cred_def,
         preview=preview,
         translation=translation,
-        comment="Here is your driver license",
+        comment="Here is your passport",
         locale="en"
     )
