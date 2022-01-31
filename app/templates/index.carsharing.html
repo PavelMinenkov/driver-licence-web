@@ -8,15 +8,212 @@
     <title>{{ title }}</title>
     <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
     <script src="{% static "jquery-3.4.1.min.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <div class="container">
-      <h1>Bootstrap Page for {{ title }} page</h1>
-      <h5>*%&!12</h5>
-      <p>This part is inside a .container class.</p>
-      <p>The .container class provides a responsive fixed width container.</p>
-  </div>
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-2">
+            <img src="https://thumbs.dreamstime.com/b/car-sharing-icon-group-carpool-community-171703016.jpg"
+                 alt="Carsharing Logo"
+                 class="img-fluid">
+        </div>
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between mb-3 align-items-center">
+                <h1 class="text-center">Rent a car</h1>
+                {% if auth %}
+                    <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect
+                        [{{ auth.label }}]</a>
+                {% else %}
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#display_qr_code">Connect
+                    </button>
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="card w-100">
+                        <img src="https://roadres.com/images/top/toyota/camry-v70.jpg" height="140px"
+                             class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Toyota Camry 70</h5>
+                            <p class="card-text">
+                                The Toyota Camry (XV70) is a mid-size car that has been produced by Toyota.
+                            </p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#rent_car_toyota">
+                                Rent
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card w-100">
+                        <img src="https://topruscar.ru/assets/images/kt/kt2021_hyundai-sonata_001.jpg"
+                             height="140px" class="card-img-top"
+                             alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Hyundai Sonata</h5>
+                            <p class="card-text">The Hyundai Sonata is a mid-size car that has been manufactured by
+                                Hyundai since 1985.</p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#rent_car_toyota">
+                                Rent
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card w-100">
+                        <img src="https://resizer.mail.ru/p/e55d516c-d404-5739-97f1-e26393c0401f/AQABKyyIAEms4nZMIeY7zJbS2WjwqDoqUJlzW6Tdh7QY06cT36owajggWlOU4h2aLg7TR5lGOB6Rj-NlQho74bekBPk.jpg"
+                             height="140px" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Kia K5</h5>
+                            <p class="card-text">The Kia K5, formerly known as the Kia Optima, is a mid-size car
+                                manufactured by Kia</p>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#rent_car_toyota">
+                                Rent
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="display_qr_code" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">QR Code</h5>
+            </div>
+            <div class="modal-body" id="auth_modal_body">
+                <img class="img-fluid" src="{{ qr_url }}" alt="QR code">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="rent_car_toyota" style="display: none" tabindex="-1" aria-labelledby="Rent Toyota"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Description of this car</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img class="img-fluid rounded"
+                             src="https://t1-cms-ru.images.toyota-europe.com/toyotaone/ruru/interior-3_tcm-3020-2215383.jpg"
+                             alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <h6>Toyota Camry 70</h6>
+                        <p>The spacious cabin of the Toyota Camry, which allows you to comfortably accommodate both the
+                            driver and passengers, advanced technologies, a multimedia system with support for Apple
+                            Carplay© and Android Auto©, as well as special accents in the interior of the Toyota Camry
+                            GR SPORT will allow you to dissolve in comfort and enjoy every minute of your journey.</p>
+                    </div>
+                    <div class="col-md-12">
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" name="first_name" id="first_name"
+                                           placeholder="John"
+                                           value="Mikhail" required>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" name="last_name" id="last_name"
+                                           placeholder="Doe"
+                                           value="L."
+                                           required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="car_name" class="form-label">Car name</label>
+                                    <input type="text" class="form-control" name="car_name" id="car_name"
+                                           placeholder="Kia K5"
+                                           value="Toyota Camry 70" required>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="car_reg_name" class="form-label">Vehicle registration number</label>
+                                    <input type="text" class="form-control" name="car_reg_name" id="car_reg_name"
+                                           value="2058000"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="pick_up_date" class="form-label">Pick-up date</label>
+                                    <input type="date" class="form-control" name="pick_up_date" id="pick_up_date"
+                                           required>
+                                </div>
+                                <div class="col-md-6 col-sm-12 mb-3">
+                                    <label for="drop_off_date" class="form-label">Drop-off date</label>
+                                    <input type="date" class="form-control" name="drop_off_date" id="drop_off_date"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="row justify-content-end">
+                                <div class="px-3">
+                                    {% if auth %}
+                                        <button type="submit" class="btn btn-lg btn-success">Rent this vehicle</button>
+                                    {% else %}
+                                        <button type="submit" class="btn btn-lg btn-success disabled" disabled>
+                                            Rent this vehicle
+                                        </button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        let ws = new WebSocket("{{ ws_url }}");
+        ws.onopen = function (event) {
+            console.log('Websocket {{ ws_url }} is open')
+        }
+        ws.onmessage = function (event) {
+            let payload = JSON.parse(event.data);
+            if (payload.type === "logger") {
+                let body = $('#auth_modal_body')
+                body.html(
+                    '<div class="d-flex align-items-center"><strong>Loading...</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>' +
+                    '<div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + payload.data.progress + '%;" aria-valuenow="' + payload.data.progress + '" aria-valuemin="0" aria-valuemax="100">' + payload.data.progress + '%</div></div>')
+            } else if (payload.type === "done") {
+                if (payload.data.success) {
+                    // Update PAge to show logged UI
+                    location.reload();
+                } else {
+                    alert(payload.data.comment);
+                }
+            }
+        }
+        ws.onclose = function (event) {
+            console.log('Websocket connection is DIE !!!');
+        }
+    });
+</script>
 
 </body>
 </html>
