@@ -26,7 +26,8 @@
             <div class="d-flex justify-content-between mb-3 align-items-center">
                 <h1 class="text-center">Rent a car</h1>
                 {% if auth %}
-                    <a href="{% url 'police-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect
+                    <a href="{% url 'carsharing-request-driver-license' %}" type="button" class="btn btn-primary btn-lg">Request driver license</a>
+                    <a href="{% url 'carsharing-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect
                         [{{ auth.label }}]</a>
                 {% else %}
                     <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
@@ -91,7 +92,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">QR Code</h5>
+                <h5 class="modal-title">Trusted connection</h5>
             </div>
             <div class="modal-body" id="auth_modal_body">
                 <img class="img-fluid" src="{{ qr_url }}" alt="QR code">
@@ -130,13 +131,13 @@
                                     <label for="first_name" class="form-label">First Name</label>
                                     <input type="text" class="form-control" name="first_name" id="first_name"
                                            placeholder="John"
-                                           value="Mikhail" required>
+                                           value="{{ first_name }}" required>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <label for="last_name" class="form-label">Last Name</label>
                                     <input type="text" class="form-control" name="last_name" id="last_name"
                                            placeholder="Doe"
-                                           value="L."
+                                           value="{{ last_name }}"
                                            required>
                                 </div>
                             </div>

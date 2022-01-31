@@ -12,6 +12,7 @@ class User:
     did: str
     verkey: str
     label: str
+    driver_license: dict = None
 
 
 AUTH_NAMESPACE = 'auth-driver-licence'
@@ -47,6 +48,21 @@ async def auth(connection_key: str) -> Optional[User]:
         return User(**kwargs)
     else:
         return None
+
+
+async def save_driver_license(connection_key: str, driver_license: dict):
+    kwargs = await Memcached.get(
+        key=connection_key,
+        namespace=AUTH_NAMESPACE
+    )
+    if kwargs:
+        kwargs["driver_license"] = driver_license
+        await Memcached.set(
+            key=connection_key,
+            value=kwargs,
+            exp_time=settings.AUTH_LIVE_SECS,
+            namespace=AUTH_NAMESPACE
+        )
 
 
 async def logout(connection_key: str):

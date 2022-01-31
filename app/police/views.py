@@ -34,11 +34,10 @@ async def index(request):
                     "place_of_residence": form.cleaned_data['place_of_residence'],
                     "categories": form.cleaned_data['categories']
                 }
-                async with sirius_sdk.context(**settings.POLICE['SDK']):
-                    conn_key = await browser_session.get_connection_key()
-                    user = await auth(conn_key)
-                    pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                    await issue_driver_license(conn_key, pw, values, form.cleaned_data['photo'].content_type)
+                conn_key = await browser_session.get_connection_key()
+                user = await auth(conn_key)
+                pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
+                await issue_driver_license(conn_key, pw, values, form.cleaned_data['photo'].content_type)
 
         template = loader.get_template('index.police.html')
         context = {
