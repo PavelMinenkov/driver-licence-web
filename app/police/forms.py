@@ -7,6 +7,7 @@ class IssueDriverLicenseForm(forms.Form):
     birthday = forms.DateField()
     place_of_birth = forms.CharField()
     issue_date = forms.DateField()
+    photo = forms.FileField()
     expiry_date = forms.DateField()
     place_of_residence = forms.CharField()
     categories = forms.CharField()

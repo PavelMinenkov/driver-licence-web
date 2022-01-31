@@ -4,6 +4,7 @@ from django.template import loader
 from django.conf import settings
 
 import sirius_sdk
+import base64
 
 from main.helpers import BrowserSession, build_websocket_url
 from main.authorization import auth
@@ -21,7 +22,7 @@ async def index(request):
         qr_url = await browser_session.get_qr_code_url()
 
         if request.method == 'POST':
-            form = IssueDriverLicenseForm(request.POST)
+            form = IssueDriverLicenseForm(request.POST, request.FILES)
             if form.is_valid():
                 values = {
                     "last_name": form.cleaned_data['last_name'],
@@ -29,7 +30,7 @@ async def index(request):
                     "birthday": form.cleaned_data['birthday'],
                     "place_of_birth": form.cleaned_data['place_of_birth'],
                     "issue_date": form.cleaned_data['issue_date'],
-                    # "photo": form.cleaned_data['photo'],
+                    "photo": base64.b64encode(form.cleaned_data['photo'].read()).decode("UTF-8"),
                     "place_of_residence": form.cleaned_data['place_of_residence'],
                     "categories": form.cleaned_data['categories']
                 }
@@ -37,7 +38,7 @@ async def index(request):
                     conn_key = await browser_session.get_connection_key()
                     user = await auth(conn_key)
                     pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                    await issue_driver_license(conn_key, pw, values)
+                    await issue_driver_license(conn_key, pw, values, form.cleaned_data['photo'].content_type)
 
         template = loader.get_template('index.police.html')
         context = {
