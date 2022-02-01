@@ -11,12 +11,130 @@
 </head>
 <body>
 
-  <div class="container">
-      <h1>Bootstrap Page for {{ title }} page</h1>
-      <h5>*%&!12</h5>
-      <p>This part is inside a .container class.</p>
-      <p>The .container class provides a responsive fixed width container.</p>
-  </div>
+<div class="container py-5">
+    <a href="/" class="btn btn-secondary mb-5">Go to back</a>
+    <div class="row">
+        <div class="col-md-2">
+            <img src="https://media.istockphoto.com/vectors/international-passport-vector-icon-filled-flat-sign-for-mobile-and-vector-id1053519076?k=20&m=1053519076&s=612x612&w=0&h=HlwMtJKUmNB49U7fXmZU1kpSZZs7bqZwoEu7e-6tKT4="
+                 alt="Carsharing Logo"
+                 class="img-fluid">
+        </div>
+        <div class="col-md-10">
+            <div class="d-flex justify-content-between mb-3 align-items-center">
+                <h1 class="text-center">Issue passport</h1>
+                {% if auth %}
+                    <a href="{% url 'gov-logout' %}" type="button" class="btn btn-danger btn-lg">Disconnect
+                        [{{ auth.label }}]</a>
+                {% else %}
+                    <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#display_qr_code">Connect
+                    </button>
+                {% endif %}
+            </div>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="first_name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
+                               value="Mikhail" required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="last_name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe"
+                               value="L."
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="birthday" class="form-label">Birthday</label>
+                        <input type="date" class="form-control" name="birthday" id="birthday" required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="place_of_birth" class="form-label">Place of birth</label>
+                        <input type="text" class="form-control" name="place_of_birth" id="place_of_birth"
+                               placeholder="Moscow, Russia"
+                               value="Russia"
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="issue_date" class="form-label">Issue date</label>
+                        <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01"
+                               required>
+                    </div>
+                    <div class="col-md-6 col-sm-12 mb-3">
+                        <label for="expiry_date" class="form-label">Expiry date</label>
+                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="2031-01-01"
+                               required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mb-3">
+                        <label for="photo" class="form-label">Photo</label>
+                        <input class="form-control" type="file" id="photo" name="photo">
+                    </div>
+                </div>
+                <div class="row justify-content-end">
+                    <div class="px-3">
+                        {% if auth %}
+                            <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
+                        {% else %}
+                            <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="display_qr_code" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Trusted connection</h5>
+            </div>
+            <div class="modal-body" id="auth_modal_body">
+                <img class="img-fluid" src="{{ qr_url }}" alt="QR code">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        let ws = new WebSocket("{{ ws_url }}");
+        ws.onopen = function (event) {
+            console.log('Websocket {{ ws_url }} is open')
+        }
+        ws.onmessage = function (event) {
+            let payload = JSON.parse(event.data);
+            if (payload.type === "logger") {
+                let body = $('#auth_modal_body')
+                body.html(
+                    '<div class="d-flex align-items-center"><strong>Loading...</strong><div class="spinner-border ms-auto" role="status" aria-hidden="true"></div></div>' +
+                    '<div class="progress"><div class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + payload.data.progress + '%;" aria-valuenow="' + payload.data.progress + '" aria-valuemin="0" aria-valuemax="100">' + payload.data.progress + '%</div></div>')
+            } else if (payload.type === "done") {
+                if (payload.data.success) {
+                    // Update PAge to show logged UI
+                    location.reload();
+                } else {
+                    alert(payload.data.comment);
+                }
+            }
+        }
+        ws.onclose = function (event) {
+            console.log('Websocket connection is DIE !!!');
+        }
+    });
+</script>
 
 </body>
 </html>

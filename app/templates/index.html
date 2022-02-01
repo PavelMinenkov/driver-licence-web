@@ -14,7 +14,7 @@
 <div class="container">
     <div class="d-flex align-items-center" style="height: 100vh">
         <div class="row align-items-stretch">
-        <div class="col-sm-4">
+        <div class="col-sm-4 pb-4">
             <div class="card bg-warning h-100">
                 <div class="card-body">
                     <h5 class="card-title">Police</h5>
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 pb-4">
             <div class="card text-white bg-success h-100">
                 <div class="card-body">
                     <h5 class="card-title">Insurance</h5>
@@ -32,12 +32,30 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 pb-4">
             <div class="card text-white bg-primary h-100">
                 <div class="card-body">
                     <h5 class="card-title">CarSharing</h5>
                     <p class="card-text">Creating a request for issuing a car.</p>
                     <a href="{% url 'carsharing-index' %}" class="btn btn-primary">Go to page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 pb-4">
+            <div class="card text-white bg-danger h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Passport Office</h5>
+                    <p class="card-text">Creating a request for issuing a passport.</p>
+                    <a href="{% url 'gov-index' %}" class="btn btn-danger">Go to page</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4 pb-4">
+            <div class="card text-white bg-info h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Driving school</h5>
+                    <p class="card-text">Creating a request for issuing сertificate of graduation from driving school.</p>
+                    <a href="{% url 'drivingschool-index' %}" class="btn btn-info">Go to page</a>
                 </div>
             </div>
         </div>
