@@ -47,6 +47,8 @@ INSTALLED_APPS = [
     'police',
     'insurance',
     'carsharing',
+    'gov',
+    'drivingschool'
 ]
 
 MIDDLEWARE = [

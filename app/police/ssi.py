@@ -25,7 +25,10 @@ async def issue_driver_license(
     )
     values["issuer_code"] = "123"
     logger = RedisLogger(connection_key)
-    issuer = sirius_sdk.aries_rfc.Issuer(to, logger=logger)
+    issuer = sirius_sdk.aries_rfc.Issuer(
+        holder=to,
+        logger=logger
+    )
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items() if key != "photo"]
     preview += [sirius_sdk.aries_rfc.ProposedAttrib(name="photo", value="Photo", mime_type=photo_mime_type)]
     translation = [
