@@ -18,7 +18,7 @@ async def index(request):
         connection_key = await browser_session.get_connection_key()
         if not connection_key:
             connection_key = await browser_session.create_connection_key()
-        qr_url = await browser_session.get_qr_code_url()
+        qr_url = await browser_session.get_qr_code_url("Driving school")
 
         if request.method == 'POST':
             form = DrivingSchoolDiplomaForm(request.POST)
@@ -27,15 +27,14 @@ async def index(request):
                     "issue_date": form.cleaned_data['issue_date'],
                     "categories": form.cleaned_data['categories']
                 }
-                async with sirius_sdk.context(**settings.DRIVING_SCHOOL['SDK']):
-                    conn_key = await browser_session.get_connection_key()
-                    user = await auth(conn_key)
-                    pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                    ok, passport_attrs = await ask_passport(pw)
-                    if ok:
-                        values["last_name"] = passport_attrs["last_name"]
-                        values["first_name"] = passport_attrs["first_name"]
-                        await issue_driving_school_diploma(pw, values)
+                conn_key = await browser_session.get_connection_key()
+                user = await auth(conn_key)
+                pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
+                ok, passport_attrs = await ask_passport(conn_key, pw)
+                if ok:
+                    values["last_name"] = passport_attrs["last_name"]
+                    values["first_name"] = passport_attrs["first_name"]
+                    await issue_driving_school_diploma(pw, values)
 
         template = loader.get_template('index.drivingschool.html')
         context = {

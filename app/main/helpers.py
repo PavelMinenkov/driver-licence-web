@@ -60,13 +60,13 @@ class BrowserSession:
         )
         return self.__connection_key
 
-    async def get_qr_code_url(self) -> str:
+    async def get_qr_code_url(self, name: str) -> str:
         if not self.__connection_key:
             raise RuntimeError('Connection key is Empty!!!')
         endpoints = await sirius_sdk.endpoints()
         simple_endpoint = [e for e in endpoints if e.routing_keys == []][0]
         invitation = sirius_sdk.aries_rfc.Invitation(
-            label="Police",
+            label=name,
             recipient_keys=[self.__connection_key],
             endpoint=simple_endpoint.address
         )

@@ -6,7 +6,7 @@ from main.ssi.custom import RedisLogger, fetch_schema
 async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
     proof_request = {
         "nonce": await sirius_sdk.AnonCreds.generate_nonce(),
-        "name": "Verify the drive license",
+        "name": "Verify passport",
         "version": "1.0",
         "requested_attributes": {
             "attr1_referent": {

@@ -18,7 +18,7 @@ async def index(request):
         connection_key = await browser_session.get_connection_key()
         if not connection_key:
             connection_key = await browser_session.create_connection_key()
-        qr_url = await browser_session.get_qr_code_url()
+        qr_url = await browser_session.get_qr_code_url("Rent a car")
 
         browser_session = BrowserSession(request, cookie_path=reverse('carsharing-index'))
         conn_key = await browser_session.get_connection_key()

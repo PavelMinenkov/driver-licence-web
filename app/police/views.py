@@ -19,7 +19,7 @@ async def index(request):
         connection_key = await browser_session.get_connection_key()
         if not connection_key:
             connection_key = await browser_session.create_connection_key()
-        qr_url = await browser_session.get_qr_code_url()
+        qr_url = await browser_session.get_qr_code_url("Police")
 
         if request.method == 'POST':
             form = IssueDriverLicenseForm(request.POST, request.FILES)

@@ -109,6 +109,6 @@ async def fetch_schema(
 
     ok, cred_def = await ledger.register_cred_def(
         cred_def=sirius_sdk.CredentialDefinition(tag='TAG', schema=schema),
-        submitter_did=settings.POLICE["DID"])
+        submitter_did=did)
 
     return cred_def, schema
