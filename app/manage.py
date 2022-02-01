@@ -19,6 +19,8 @@ def main():
         print('!!!!! Run SSI foreground tasks in debug mode !!!!!!')
         os.system("python manage.py run_ssi_police &")
         os.system("python manage.py run_ssi_carsharing &")
+        os.system("python manage.py run_ssi_gov &")
+        os.system("python manage.py run_ssi_driving_school &")
     execute_from_command_line(sys.argv)
 
 

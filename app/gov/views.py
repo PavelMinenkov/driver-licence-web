@@ -31,11 +31,10 @@ async def index(request):
                     "issue_date": form.cleaned_data['issue_date'],
                     # "photo": form.cleaned_data['photo'],
                 }
-                async with sirius_sdk.context(**settings.GOV['SDK']):
-                    conn_key = await browser_session.get_connection_key()
-                    user = await auth(conn_key)
-                    pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                    await issue_passport(conn_key, pw, values)
+                conn_key = await browser_session.get_connection_key()
+                user = await auth(conn_key)
+                pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
+                await issue_passport(conn_key, pw, values)
 
         template = loader.get_template('index.gov.html')
         context = {

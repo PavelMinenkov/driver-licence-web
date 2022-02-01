@@ -18,4 +18,4 @@ HEALTHCHECK --interval=30s --timeout=15s --start-period=30s --retries=2 \
 CMD echo "Wait database is ready" && /app/wait-for-it.sh ${DATABASE_HOST}:${DATABASE_PORT-5432} --timeout=60 && \
   cd /app && \
   echo "Database migration" && python manage.py migrate && \
-  echo "Run services" && (python manage.py run_ssi_police & python manage.py run_ssi_carsharing & uvicorn settings.asgi:application --reload --port=80 --host=0.0.0.0)
+  echo "Run services" && (python manage.py run_ssi_police & python manage.py run_ssi_carsharing & python manage.py run_ssi_gov & python manage.py run_ssi_driving_school & uvicorn settings.asgi:application --reload --port=80 --host=0.0.0.0)
