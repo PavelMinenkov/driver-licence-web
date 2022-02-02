@@ -30,7 +30,7 @@ async def index(request):
                     "birthday": form.cleaned_data['birthday'],
                     "place_of_birth": form.cleaned_data['place_of_birth'],
                     "issue_date": form.cleaned_data['issue_date'],
-                    "photo": base64.b64encode(form.cleaned_data['photo'].read()).decode("UTF-8"),
+                    "photo": base64.urlsafe_b64encode(form.cleaned_data['photo'].read()).decode("UTF-8"),
                     "place_of_residence": form.cleaned_data['place_of_residence'],
                     "categories": form.cleaned_data['categories']
                 }
