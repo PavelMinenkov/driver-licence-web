@@ -62,15 +62,19 @@ async def logout(request):
         return response
 
 
-async def request_passport(request):
+async def request_passport_routine(request):
     async with sirius_sdk.context(**settings.DRIVING_SCHOOL['SDK']):
         browser_session = BrowserSession(request, cookie_path=reverse('drivingschool-index'))
         conn_key = await browser_session.get_connection_key()
         user = await auth(conn_key)
         pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-        ok, drive_lic_attrs = await ask_passport(conn_key, pw)
+        ok, passport_attrs = await ask_passport(conn_key, pw)
         if ok:
-            await save_passport(await browser_session.get_connection_key(), drive_lic_attrs)
+            await save_passport(await browser_session.get_connection_key(), passport_attrs)
+
+
+async def request_passport(request):
+    asyncio.ensure_future(request_passport_routine(request))
 
     response = HttpResponseRedirect(redirect_to=reverse('drivingschool-index'))
     return response
