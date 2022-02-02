@@ -13,6 +13,7 @@ class User:
     verkey: str
     label: str
     driver_license: dict = None
+    passport: dict = None
 
 
 AUTH_NAMESPACE = 'auth-driver-licence'
@@ -57,6 +58,21 @@ async def save_driver_license(connection_key: str, driver_license: dict):
     )
     if kwargs:
         kwargs["driver_license"] = driver_license
+        await Memcached.set(
+            key=connection_key,
+            value=kwargs,
+            exp_time=settings.AUTH_LIVE_SECS,
+            namespace=AUTH_NAMESPACE
+        )
+
+
+async def save_passport(connection_key: str, passport: dict):
+    kwargs = await Memcached.get(
+        key=connection_key,
+        namespace=AUTH_NAMESPACE
+    )
+    if kwargs:
+        kwargs["passport"] = passport
         await Memcached.set(
             key=connection_key,
             value=kwargs,

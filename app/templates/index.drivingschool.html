@@ -19,7 +19,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
-                <button type="button" class="btn btn-danger btn-lg">Request passport</button>
+                <a href="{% url 'drivingschool-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
             </div>
         </div>
         <div class="col-md-2">
@@ -44,13 +44,13 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
-                               value="Mikhail" required disabled>
+                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder=""
+                               value="{{ first_name }}" required disabled>
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe"
-                               value="L."
+                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder=""
+                               value="{{ last_name }}"
                                required disabled>
                     </div>
                 </div>

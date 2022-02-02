@@ -20,9 +20,7 @@ async def index(request):
             connection_key = await browser_session.create_connection_key()
         qr_url = await browser_session.get_qr_code_url("Rent a car")
 
-        browser_session = BrowserSession(request, cookie_path=reverse('carsharing-index'))
-        conn_key = await browser_session.get_connection_key()
-        user = await auth(conn_key)
+        user = await auth(connection_key)
         driver_license = user.driver_license if user else None
 
         if request.method == 'POST':
@@ -71,6 +69,6 @@ async def request_driver_license(request):
         pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
         ok, drive_lic_attrs = await check_driver_license(conn_key, pw)
         if ok:
-            await save_driver_license(browser_session.get_connection_key(), drive_lic_attrs)
+            await save_driver_license(await browser_session.get_connection_key(), drive_lic_attrs)
         response = HttpResponseRedirect(redirect_to=reverse('carsharing-index'))
         return response
