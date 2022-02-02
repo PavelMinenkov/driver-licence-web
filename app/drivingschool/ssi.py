@@ -36,7 +36,7 @@ async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (b
 
 async def issue_driving_school_diploma(connection_key: str, pairwise: sirius_sdk.Pairwise, values: dict):
     cred_def, schema = await fetch_schema(
-        name="Vehicle licence",
+        name="Driving school diploma",
         version="1.0",
         attrs=[
             "last_name",
