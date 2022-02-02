@@ -131,14 +131,14 @@
                                     <label for="first_name" class="form-label">First Name</label>
                                     <input type="text" class="form-control" name="first_name" id="first_name"
                                            placeholder="John"
-                                           value="{{ first_name }}" required>
+                                           value="{{ first_name }}" disabled>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <label for="last_name" class="form-label">Last Name</label>
                                     <input type="text" class="form-control" name="last_name" id="last_name"
                                            placeholder="Doe"
                                            value="{{ last_name }}"
-                                           required>
+                                           disabled>
                                 </div>
                             </div>
                             <div class="row">
@@ -146,7 +146,7 @@
                                     <label for="car_name" class="form-label">Car name</label>
                                     <input type="text" class="form-control" name="car_name" id="car_name"
                                            placeholder="Kia K5"
-                                           value="Toyota Camry 70" required>
+                                           value="Toyota Camry 70" disabled>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
                                     <label for="car_reg_name" class="form-label">Vehicle registration number</label>
@@ -162,7 +162,7 @@
                                            required>
                                 </div>
                                 <div class="col-md-6 col-sm-12 mb-3">
-                                    <label for="drop_off_date" class="form-label">Drop-off date</label>
+                                    <label for="drop_off_date" class="form-label today-date">Drop-off date</label>
                                     <input type="date" class="form-control" name="drop_off_date" id="drop_off_date"
                                            required>
                                 </div>
@@ -214,6 +214,11 @@
         ws.onclose = function (event) {
             console.log('Websocket connection is DIE !!!');
         }
+
+        let today = new Date()
+        $('#pick_up_date').val(today.toISOString().substr(0, 10))
+        today.setDate(today.getDate() + 2)
+        $('#drop_off_date').val(today.toISOString().substr(0, 10))
     });
 </script>
 

@@ -18,11 +18,11 @@
     <a href="/" class="btn btn-secondary mb-5">Go back</a>
     <div class="row">
         <div class="col-md-12">
-            <div class="d-flex justify-content-between mb-5">
-                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
-                        data-bs-target="#request_passport">Request passport
+            <div class="d-flex justify-content-end mb-5">
+                <button type="button" class="btn btn-danger btn-lg mr-4">
+                    Request passport
                 </button>
-                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#request_driverschool_diploma">
+                <button type="button" class="btn btn-light btn-lg">
                     Request driver school diploma
                 </button>
                 {#                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"#}
@@ -78,19 +78,19 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="issue_date" class="form-label">Issue date</label>
-                        <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01"
+                        <input type="date" class="form-control" name="issue_date" id="issue_date"
                                required>
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="expiry_date" class="form-label">Expiry date</label>
-                        <input type="date" class="form-control" name="expiry_date" id="expiry_date" value="2031-01-01"
+                        <input type="date" class="form-control" name="expiry_date" id="expiry_date"
                                required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-sm-12 mb-3">
                         <label for="photo" class="form-label">Photo</label>
-                        <input class="form-control" type="file" id="photo" name="photo" required>
+                        <input class="form-control" type="file" id="photo" accept="image/png, image/jpeg" name="photo" required>
                     </div>
                 </div>
                 <div class="row">
@@ -128,134 +128,6 @@
             </div>
             <div class="modal-body" id="auth_modal_body">
                 <img class="img-fluid" src="{{ qr_url }}" alt="QR code">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="request_passport" style="display: none" tabindex="-1" aria-labelledby="Request Passport"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Request Passport</h5>
-            </div>
-            <div class="modal-body" id="auth_modal_body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
-                                   value="Mikhail" disabled>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe"
-                                   value="L."
-                                   disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="birthday" class="form-label">Birthday</label>
-                            <input type="date" class="form-control" name="birthday" id="birthday" disabled>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="place_of_birth" class="form-label">Place of birth</label>
-                            <input type="text" class="form-control" name="place_of_birth" id="place_of_birth"
-                                   placeholder="Moscow, Russia"
-                                   value="Russia"
-                                   required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="issue_date" class="form-label">Issue date</label>
-                            <input type="date" class="form-control" name="issue_date" id="issue_date" value="2001-01-01"
-                                   disabled>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="expiry_date" class="form-label">Expiry date</label>
-                            <input type="date" class="form-control" name="expiry_date" id="expiry_date"
-                                   value="2031-01-01"
-                                   disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 mb-3">
-                            <label for="photo" class="form-label">Photo</label>
-                            <input class="form-control" type="file" id="photo" name="photo">
-                        </div>
-                    </div>
-                    <div class="row justify-content-end">
-                        <div class="px-3">
-                            {% if auth %}
-                                <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
-                            {% else %}
-                                <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="request_driverschool_diploma" style="display: none" tabindex="-1"
-     aria-labelledby="Request driver school diploma"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Request Passport</h5>
-            </div>
-            <div class="modal-body" id="auth_modal_body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="first_name" class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="first_name" id="first_name" placeholder="John"
-                                   value="Mikhail" disabled>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="last_name" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Doe"
-                                   value="L."
-                                   disabled>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="issue_date" class="form-label">Issue date</label>
-                            <input type="date" class="form-control" name="issue_date" id="issue_date" disabled>
-                        </div>
-                        <div class="col-md-6 col-sm-12 mb-3">
-                            <label for="categories" class="form-label">Categories</label>
-                            <input type="text" class="form-control" name="categories" id="categories"
-                                   placeholder="B"
-                                   value="B"
-                                   disabled>
-                        </div>
-                    </div>
-                    <div class="row justify-content-end">
-                        <div class="px-3">
-                            {% if auth %}
-                                <button type="submit" class="btn btn-lg btn-success">Issue Credential</button>
-                            {% else %}
-                                <button type="submit" class="btn btn-lg btn-success disabled" disabled>Issue Credential
-                                </button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -313,6 +185,10 @@
         ws.onclose = function (event) {
             console.log('Websocket connection is DIE !!!');
         }
+        let today = new Date()
+        $('#issue_date').val(today.toISOString().substr(0, 10))
+        today.setFullYear(today.getFullYear() + 10)
+        $('#expiry_date').val(today.toISOString().substr(0, 10))
     });
 
     {#(function () {#}
@@ -398,8 +274,5 @@
     {#    // Set up our event listener to run the startup process#}
     {#    // once loading is complete.#}
     {#    window.addEventListener('load', startup, false);#}
-    {#})
-        ();
-    #}
 </script>
 </html>
