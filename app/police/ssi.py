@@ -3,6 +3,31 @@ from django.conf import settings
 from main.ssi.custom import RedisLogger, fetch_schema
 
 
+async def ask_driver_school_diploma(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
+    proof_request = {
+        "nonce": await sirius_sdk.AnonCreds.generate_nonce(),
+        "name": "Verify passport",
+        "version": "1.0",
+        "requested_attributes": {
+            "attr1_referent": {
+                "name": "category",
+                # "restrictions": {
+                #     "issuer_did": settings.DRIVING_SCHOOL["DID"]
+                # }
+            }
+        }
+    }
+
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
+    logger = RedisLogger(connection_key)
+    verifier = sirius_sdk.aries_rfc.Verifier(pairwise, ledger, logger=logger)
+    ok = await verifier.verify(proof_request=proof_request, comment="Verify driver school diploma")
+    if ok:
+        return ok, verifier.revealed_attrs
+    else:
+        return ok, None
+
+
 async def issue_driver_license(
         connection_key: str, to: sirius_sdk.Pairwise, values: dict, photo_mime_type: str
 ):
