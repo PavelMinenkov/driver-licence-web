@@ -23,7 +23,7 @@ async def issue_passport(
     logger = RedisLogger(connection_key)
     issuer = sirius_sdk.aries_rfc.Issuer(to, logger=logger)
     preview = [sirius_sdk.aries_rfc.ProposedAttrib(key, str(value)) for key, value in values.items() if key != "photo"]
-    preview += [sirius_sdk.aries_rfc.ProposedAttrib(name="photo", value="Photo", mime_type=photo_mime_type)]
+    preview += [sirius_sdk.aries_rfc.ProposedAttrib(name="photo", value=values["photo"], mime_type=photo_mime_type)]
     translation = [
         sirius_sdk.aries_rfc.AttribTranslation("last_name", "Last Name"),
         sirius_sdk.aries_rfc.AttribTranslation("first_name", "First Name"),
