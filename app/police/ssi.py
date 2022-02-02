@@ -11,9 +11,9 @@ async def ask_driver_school_diploma(connection_key: str, pairwise: sirius_sdk.Pa
         "requested_attributes": {
             "attr1_referent": {
                 "name": "category",
-                # "restrictions": {
-                #     "issuer_did": settings.DRIVING_SCHOOL["DID"]
-                # }
+                "restrictions": {
+                    "issuer_did": settings.DRIVING_SCHOOL["DID"]
+                }
             }
         }
     }
