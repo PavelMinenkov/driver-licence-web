@@ -11,3 +11,8 @@ class IssueDriverLicenseForm(forms.Form):
     expiry_date = forms.DateField()
     place_of_residence = forms.CharField()
     categories = forms.CharField()
+
+
+class VerifyFaceForm(forms.Form):
+    source_image = forms.FileField()
+    target_image = forms.FileField()
