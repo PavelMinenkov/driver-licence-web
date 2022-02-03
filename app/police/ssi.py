@@ -3,14 +3,57 @@ from django.conf import settings
 from main.ssi.custom import RedisLogger, fetch_schema
 
 
-async def ask_driver_school_diploma(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
+async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
     proof_request = {
         "nonce": await sirius_sdk.AnonCreds.generate_nonce(),
         "name": "Verify passport",
         "version": "1.0",
         "requested_attributes": {
             "attr1_referent": {
-                "name": "category",
+                "name": "last_name",
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
+            },
+            "attr2_referent": {
+                "name": "first_name",
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
+            },
+            "attr3_referent": {
+                "name": "birthday",
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
+            },
+            "attr4_referent": {
+                "name": "place_of_birth",
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
+            }
+        }
+    }
+
+    ledger = await sirius_sdk.ledger(settings.DKMS_NAME)
+    logger = RedisLogger(connection_key)
+    verifier = sirius_sdk.aries_rfc.Verifier(pairwise, ledger, logger=logger)
+    ok = await verifier.verify(proof_request=proof_request, comment="Verify passport")
+    if ok:
+        return ok, verifier.revealed_attrs
+    else:
+        return ok, None
+
+
+async def ask_driver_school_diploma(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (bool, dict):
+    proof_request = {
+        "nonce": await sirius_sdk.AnonCreds.generate_nonce(),
+        "name": "Verify driver school diploma",
+        "version": "1.0",
+        "requested_attributes": {
+            "attr1_referent": {
+                "name": "categories",
                 "restrictions": {
                     "issuer_did": settings.DRIVING_SCHOOL["DID"]
                 }

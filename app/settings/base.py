@@ -177,28 +177,29 @@ DRIVING_SCHOOL = {
 POLICE = {
     'SDK': {
         'server_uri': 'https://demo.socialsirius.com',
-        'credentials': b'/MYok4BSllG8scfwXVVRK8V47I1PC44mktwiJKKduf38Yb7UgIsq8n4SXVBrRwIzHMQA/6sdiKgrB20Kbw9ieHbOGlxx3UVlWNM0Xfc9Rgk85cCLSHWM2vqlNQSGwHAM+udXpuPwAkfKjiUtzyPBcA==',
+        'credentials': '/MYok4BSllG8scfwXVVRK8V47I1PC44mktwiJKKduf38Yb7UgIsq8n4SXVBrRwIzHMQA/6sdiKgrB20Kbw9ieHbOGlxx3UVlWNM0Xfc9Rgk85cCLSHWM2vqlNQSGwHAM+udXpuPwAkfKjiUtzyPBcA=='.encode(),
         'p2p': sirius_sdk.P2PConnection(
             my_keys=('BhDMxfvhc2PZ4BpGTExyWHYkJDFPhmXpaRvUoCoNJ8rL', '2wwakvFwBRWbFeLyDbsH6cYVve6FBH6DL133sPNN87jWYbc6rHXj7Q3dnAsbB6EuNwquucsDzSBhNcpxgyVLCCYg'),
             their_verkey='8VNHw79eMTZJBasgjzdwyKyCYA88ajm9gvP98KGcjaBt'
         )
     },
     'DID': 'XwVCkzM6sMxk87M2GKtya6',
-    'VERKEY': 'Hs4FPfB1d7nFUcqbMZqofFg4qoeGxGThmSbunJYpVAM6'
+    'VERKEY': 'Hs4FPfB1d7nFUcqbMZqofFg4qoeGxGThmSbunJYpVAM6',
 }
 
 RENT_A_CAR = {
     'SDK': {
         'server_uri': 'https://demo.socialsirius.com',
-        'credentials': b'/MYok4BSllG8scfwXVVRK3NATRRtESRnhUHOU3nJxxZ+gg81/srwEPNWfZ+3+6GaEHcqghOJvRoV7taA/vCd2+q2hIEpDO/yCPfMr4x2K0vC/pom1gFRJwJAKI3LpMy3',
+        'credentials': b'hMPfx0D1ptQa2fK8UPw7p9/Zf/UUEY9Ppk9oU92VO8IUHnc6oP5ov7f9PQ1NLIO5EHcqghOJvRoV7taA/vCd27dfNDKGk1lHqBCjpgHwwotACFHXe3JwIxBUoVBFOMW0',
         'p2p': sirius_sdk.P2PConnection(
-            my_keys=('HBEe9KkPCK4D1zs6UBzLqWp6j2Gj88zy3miqybvYx42p', '23jutNJBbgn8bbX53Qr36JSeS2VtZHvY4DMqazXHq6mDEPNkuA3FkKVGAMJdjPznfizLg9nh448DXZ7e1724qk1a'),
-            their_verkey='BNxpmTgs9B3yMURa1ta7avKuBA5wcBp5ZmXfqPFPYGAP'
-        )
+                my_keys=('4MnPFkkZ3NWZ2vRq5U3mQhZPkGw6y1DQCzynd4kyYtUw', '24gsMTc77ZHoGFCbQrTEEgTGFSZkK6WhUZKJySC19QswJ1mPZKSZnH9ohzn686UYBD9fj5TCAzxUiwzYhamk64Hu'),
+                their_verkey='31qXP2rhZPMXvZTm1PrdvBNrmSdxxTNxVNgmKMAuPKJ3'
+            )
     },
-    'DID': 'Ap29nQ3Kf2bGJdWEV3m4AG',
-    'VERKEY': '6M8qgMdkqGzQ2yhryV3F9Kvk785qAFny5JuLp1CJCcHW'
+    'DID': 'Jj9FsbrRkcrPrB4PFZFRg7',
+    'VERKEY': 'AfNcBeyuPZ5WKbiNQKw9vogzkYQggU8BsaTyAaMDfkQv'
 }
+
 
 DKMS_NAME = 'test_network'
 
