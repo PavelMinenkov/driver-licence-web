@@ -19,12 +19,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
+                {% if auth %}
                 <a href="{% url 'police-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
                 <a href="{% url 'police-request-driver-school-diploma' %}" type="button" class="btn btn-primary btn-lg">Request driving school diploma</a>
                 {#                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"#}
                 {#                        data-bs-target="#verify_photo">#}
                 {#                    Verify photo#}
                 {#                </button>#}
+                {% endif %}
             </div>
         </div>
         <div class="col-md-2">

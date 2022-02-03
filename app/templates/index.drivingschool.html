@@ -19,7 +19,9 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
+                {% if auth %}
                 <a href="{% url 'drivingschool-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-2">
