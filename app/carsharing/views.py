@@ -27,7 +27,6 @@ async def index(request):
             form = CarRentalForm(request.POST)
             if form.is_valid():
                 values = {
-                    "car_name": form.cleaned_data['car_name'],
                     "pick_up_date": form.cleaned_data['pick_up_date'],
                     "drop_off_date": form.cleaned_data['drop_off_date']
                 }
@@ -35,7 +34,7 @@ async def index(request):
                     values["last_name"] = driver_license["last_name"]
                     values["first_name"] = driver_license["first_name"]
                 pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                await issue_confirmation(pw, values)
+                await issue_confirmation(connection_key, pw, values)
 
         template = loader.get_template('index.carsharing.html')
         context = {
