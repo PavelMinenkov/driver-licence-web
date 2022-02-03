@@ -2,14 +2,19 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.template import loader
 from django.conf import settings
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 import sirius_sdk
 import base64
+import requests
+
 
 from main.helpers import BrowserSession, build_websocket_url
 from main.authorization import auth
 from police.forms import IssueDriverLicenseForm
 from police.ssi import issue_driver_license
+from police.forms import VerifyFaceForm
 
 
 async def index(request):
@@ -57,3 +62,41 @@ async def logout(request):
         response = HttpResponseRedirect(redirect_to=reverse('police-index'))
         await browser_session.logout(response)
         return response
+
+
+@csrf_exempt
+def verify_face(request):
+    data = {
+        "status": False,
+        "similarity": 0,
+    }
+
+    if request.method == 'POST':
+        form = VerifyFaceForm(request.POST, files=request.FILES)
+
+        if not form.is_valid():
+            return JsonResponse(data)
+    else:
+        return JsonResponse(data)
+
+    try:
+        response = requests.post(f"{settings.VERIFY_FACE_HOST}{settings.VERIFY_FACE_API_URL}", files=request.FILES,
+                                 headers={'x-api-key': settings.VERIFY_FACE_TOKEN})
+
+        verify_data = response.json()
+    except:
+        return JsonResponse(data)
+
+    try:
+        for result in verify_data['result']:
+            if 'face_matches' not in result:
+                continue
+            for face_match in result['face_matches']:
+                if face_match['similarity'] >= settings.VERIFY_FACE_THRESHOLD:
+                    data["status"] = True
+                    data["similarity"] = face_match['similarity']
+                    return JsonResponse(data)
+    except:
+        pass
+
+    return JsonResponse(data)

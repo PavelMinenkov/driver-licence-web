@@ -11,3 +11,4 @@ websockets==10.1
 whitenoise==5.3.0
 uvicorn==0.13.4
 sirius-sdk==1.4.1
+requests==2.27.1
