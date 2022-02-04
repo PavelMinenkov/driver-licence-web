@@ -30,6 +30,8 @@ async def index(request):
                     "pick_up_date": form.cleaned_data['pick_up_date'],
                     "drop_off_date": form.cleaned_data['drop_off_date']
                 }
+                values["car_name"] = "Toyota Camry 70"
+                values["car_reg_number"] = "AB-123-CD"
                 if driver_license:
                     values["last_name"] = driver_license["last_name"]
                     values["first_name"] = driver_license["first_name"]

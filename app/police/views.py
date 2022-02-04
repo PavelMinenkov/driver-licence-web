@@ -79,8 +79,8 @@ async def logout(request):
 @csrf_exempt
 def verify_face(request):
     data = {
-        "status": False,
-        "similarity": 0,
+        "status": True,
+        "similarity": 0.0,
     }
 
     if request.method == 'POST':
