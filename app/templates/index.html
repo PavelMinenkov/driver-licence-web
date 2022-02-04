@@ -13,8 +13,12 @@
 
 <div class="container">
     <div class="w-screen flex" style="height: 100vh">
-        <div class="w-full flex flex-col items-center justify-center">
-            <a href="{% url 'gov-index' %}" class="flex flex-col items-center mb-24 text-lg">
+        <div class="w-full flex flex-col items-center justify-center relative">
+            <div class="absolute top-1/2 mt-16 w-px h-32 bg-gray-900"></div>
+            <div class="absolute left-1/2 ml-20 w-32 h-px bg-gray-900"></div>
+            <div class="absolute right-1/2 mr-20 w-32 h-px bg-gray-900"></div>
+            <div class="absolute bottom-1/2 mb-16 w-px h-32 bg-gray-900"></div>
+            <a href="{% url 'gov-index' %}" class="flex flex-col items-center mb-36 text-lg">
                 <img src="https://cdn1.iconfinder.com/data/icons/office-and-internet-1/49/74-512.png"
                      alt="CarSharing Logo"
                      class="w-24 mb-4">
@@ -27,12 +31,9 @@
                          class="w-24 mb-4">
                     Car sharing
                 </a>
-                <p class="flex flex-col items-center text-xl w-72 text-center font-bold">
-                    <img class="w-24 h-24 mb-4"
-                         src="https://raw.githubusercontent.com/Sirius-social/sirius-sdk-php/master/docs/_static/sirius_logo.png"
-                         alt="Sirius Logo">
-                    Sirius Self-Sovereign Identity Solutions
-                </p>
+                <img class="w-24 h-24 mb-4"
+                     src="https://cdn-icons-png.flaticon.com/512/4964/4964849.png"
+                     alt="Sirius Logo">
                 <a href="{% url 'drivingschool-index' %}" class="flex flex-col items-center ml-48 text-lg">
                     <img src="https://cdn-icons-png.flaticon.com/512/1581/1581901.png"
                          alt="Driving school"
@@ -40,7 +41,7 @@
                     Driving school
                 </a>
             </div>
-            <a href="{% url 'police-index' %}" class="flex flex-col items-center mt-24 text-lg">
+            <a href="{% url 'police-index' %}" class="flex flex-col items-center mt-36 text-lg">
                 <img src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png"
                      alt="Police Logo"
                      class="w-24 mb-4">
