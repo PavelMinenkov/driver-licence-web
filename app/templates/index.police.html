@@ -19,16 +19,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
-                <button type="button" class="btn btn-danger btn-lg mr-4">
-                    Request passport
-                </button>
-                <button type="button" class="btn btn-light btn-lg">
-                    Request driver school diploma
-                </button>
+                {% if auth %}
+                <a href="{% url 'police-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
+                <a href="{% url 'police-request-driver-school-diploma' %}" type="button" class="btn btn-primary btn-lg">Request driving school diploma</a>
                 <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
                         data-bs-target="#verify_photo">
                     Verify photo
                 </button>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-2">
@@ -53,26 +51,26 @@
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="first_name" class="form-label">First Name</label>
                         <input type="text" class="form-control" name="first_name" id="first_name" placeholder=""
-                               value="" required disabled>
+                               value="{{ first_name }}" required disabled>
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="last_name" class="form-label">Last Name</label>
                         <input type="text" class="form-control" name="last_name" id="last_name" placeholder=""
-                               value=""
+                               value="{{ last_name }}"
                                required disabled>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="birthday" class="form-label">Birthday</label>
-                        <input type="date" class="form-control" name="birthday" id="birthday" value=""
+                        <input type="date" class="form-control" name="birthday" id="birthday" value="{{ birthday }}"
                                required disabled>
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="place_of_birth" class="form-label">Place of birth</label>
                         <input type="text" class="form-control" name="place_of_birth" id="place_of_birth"
                                placeholder=""
-                               value="" required disabled>
+                               value="{{ place_of_birth }}" required disabled>
                     </div>
                 </div>
                 <div class="row">
@@ -105,7 +103,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="categories" class="form-label">Categories</label>
-                        <input type="text" class="form-control" name="categories" id="categories" value="" required disabled>
+                        <input type="text" class="form-control" name="categories" id="categories" value="{{ categories }}" required disabled>
                     </div>
                 </div>
                 <div class="row justify-content-end">

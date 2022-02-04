@@ -14,6 +14,7 @@ class User:
     label: str
     driver_license: dict = None
     passport: dict = None
+    driving_school_diploma: dict = None
 
 
 AUTH_NAMESPACE = 'auth-driver-licence'
@@ -73,6 +74,21 @@ async def save_passport(connection_key: str, passport: dict):
     )
     if kwargs:
         kwargs["passport"] = passport
+        await Memcached.set(
+            key=connection_key,
+            value=kwargs,
+            exp_time=settings.AUTH_LIVE_SECS,
+            namespace=AUTH_NAMESPACE
+        )
+
+
+async def save_driving_school_diploma(connection_key: str, driving_school_diploma: dict):
+    kwargs = await Memcached.get(
+        key=connection_key,
+        namespace=AUTH_NAMESPACE
+    )
+    if kwargs:
+        kwargs["driving_school_diploma"] = driving_school_diploma
         await Memcached.set(
             key=connection_key,
             value=kwargs,

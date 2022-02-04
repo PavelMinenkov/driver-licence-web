@@ -53,7 +53,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    #'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -148,7 +148,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-POLICE = {
+GOV = {
     'SDK': {
         'server_uri': 'https://demo.socialsirius.com',
         'credentials': 'BXXwMmUlw7MTtVWhcVvbSVWbC1GopGXDuo+oY3jHkP/4jN3eTlPDwSwJATJbzwuPAAaULe6HFEP5V57H6HWNqYL4YtzWCkW2w+H7fLgrfTLaBtnD7/P6c5TDbBvGucOV'.encode(),
@@ -159,6 +159,32 @@ POLICE = {
     },
     'DID': 'X1YdguoHBaY1udFQMbbKKG',
     'VERKEY': 'HMf57wiWK1FhtzLbm76o37tEMJvaCbWfGsaUzCZVZwnT'
+}
+
+DRIVING_SCHOOL = {
+    'SDK': {
+        'server_uri': 'https://demo.socialsirius.com',
+        'credentials': '/MYok4BSllG8scfwXVVRK3NATRRtESRnhUHOU3nJxxZ+gg81/srwEPNWfZ+3+6GaEHcqghOJvRoV7taA/vCd2+q2hIEpDO/yCPfMr4x2K0vC/pom1gFRJwJAKI3LpMy3'.encode(),
+        'p2p': sirius_sdk.P2PConnection(
+            my_keys=('HBEe9KkPCK4D1zs6UBzLqWp6j2Gj88zy3miqybvYx42p', '23jutNJBbgn8bbX53Qr36JSeS2VtZHvY4DMqazXHq6mDEPNkuA3FkKVGAMJdjPznfizLg9nh448DXZ7e1724qk1a'),
+            their_verkey='BNxpmTgs9B3yMURa1ta7avKuBA5wcBp5ZmXfqPFPYGAP'
+        )
+    },
+    'DID': 'Ap29nQ3Kf2bGJdWEV3m4AG',
+    'VERKEY': '6M8qgMdkqGzQ2yhryV3F9Kvk785qAFny5JuLp1CJCcHW',
+}
+
+POLICE = {
+    'SDK': {
+        'server_uri': 'https://demo.socialsirius.com',
+        'credentials': '/MYok4BSllG8scfwXVVRK8V47I1PC44mktwiJKKduf38Yb7UgIsq8n4SXVBrRwIzHMQA/6sdiKgrB20Kbw9ieHbOGlxx3UVlWNM0Xfc9Rgk85cCLSHWM2vqlNQSGwHAM+udXpuPwAkfKjiUtzyPBcA=='.encode(),
+        'p2p': sirius_sdk.P2PConnection(
+            my_keys=('BhDMxfvhc2PZ4BpGTExyWHYkJDFPhmXpaRvUoCoNJ8rL', '2wwakvFwBRWbFeLyDbsH6cYVve6FBH6DL133sPNN87jWYbc6rHXj7Q3dnAsbB6EuNwquucsDzSBhNcpxgyVLCCYg'),
+            their_verkey='8VNHw79eMTZJBasgjzdwyKyCYA88ajm9gvP98KGcjaBt'
+        )
+    },
+    'DID': 'XwVCkzM6sMxk87M2GKtya6',
+    'VERKEY': 'Hs4FPfB1d7nFUcqbMZqofFg4qoeGxGThmSbunJYpVAM6',
 }
 
 RENT_A_CAR = {
@@ -174,31 +200,6 @@ RENT_A_CAR = {
     'VERKEY': 'AfNcBeyuPZ5WKbiNQKw9vogzkYQggU8BsaTyAaMDfkQv'
 }
 
-GOV = {
-    'SDK': {
-        'server_uri': 'https://demo.socialsirius.com',
-        'credentials': b'/MYok4BSllG8scfwXVVRK8V47I1PC44mktwiJKKduf38Yb7UgIsq8n4SXVBrRwIzHMQA/6sdiKgrB20Kbw9ieHbOGlxx3UVlWNM0Xfc9Rgk85cCLSHWM2vqlNQSGwHAM+udXpuPwAkfKjiUtzyPBcA==',
-        'p2p': sirius_sdk.P2PConnection(
-            my_keys=('BhDMxfvhc2PZ4BpGTExyWHYkJDFPhmXpaRvUoCoNJ8rL', '2wwakvFwBRWbFeLyDbsH6cYVve6FBH6DL133sPNN87jWYbc6rHXj7Q3dnAsbB6EuNwquucsDzSBhNcpxgyVLCCYg'),
-            their_verkey='8VNHw79eMTZJBasgjzdwyKyCYA88ajm9gvP98KGcjaBt'
-        )
-    },
-    'DID': 'XwVCkzM6sMxk87M2GKtya6',
-    'VERKEY': 'Hs4FPfB1d7nFUcqbMZqofFg4qoeGxGThmSbunJYpVAM6'
-}
-
-DRIVING_SCHOOL = {
-    'SDK': {
-        'server_uri': 'https://demo.socialsirius.com',
-        'credentials': b'/MYok4BSllG8scfwXVVRK3NATRRtESRnhUHOU3nJxxZ+gg81/srwEPNWfZ+3+6GaEHcqghOJvRoV7taA/vCd2+q2hIEpDO/yCPfMr4x2K0vC/pom1gFRJwJAKI3LpMy3',
-        'p2p': sirius_sdk.P2PConnection(
-            my_keys=('HBEe9KkPCK4D1zs6UBzLqWp6j2Gj88zy3miqybvYx42p', '23jutNJBbgn8bbX53Qr36JSeS2VtZHvY4DMqazXHq6mDEPNkuA3FkKVGAMJdjPznfizLg9nh448DXZ7e1724qk1a'),
-            their_verkey='BNxpmTgs9B3yMURa1ta7avKuBA5wcBp5ZmXfqPFPYGAP'
-        )
-    },
-    'DID': 'Ap29nQ3Kf2bGJdWEV3m4AG',
-    'VERKEY': '6M8qgMdkqGzQ2yhryV3F9Kvk785qAFny5JuLp1CJCcHW'
-}
 
 DKMS_NAME = 'test_network'
 

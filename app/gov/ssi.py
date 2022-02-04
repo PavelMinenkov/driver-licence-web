@@ -7,8 +7,8 @@ async def issue_passport(
         connection_key: str, to: sirius_sdk.Pairwise, values: dict, photo_mime_type: str
 ):
     cred_def, schema = await fetch_schema(
-        name="Passport",
-        version="1.0",
+        name="Passport 2.0",
+        version="2.0",
         attrs=[
             "last_name",
             "first_name",
@@ -30,6 +30,7 @@ async def issue_passport(
         sirius_sdk.aries_rfc.AttribTranslation("birthday", "Birthday"),
         sirius_sdk.aries_rfc.AttribTranslation("place_of_birth", "Place of birth"),
         sirius_sdk.aries_rfc.AttribTranslation("issue_date", "Issue date"),
+        sirius_sdk.aries_rfc.AttribTranslation("expiry_date", "Expiry date"),
         sirius_sdk.aries_rfc.AttribTranslation("photo", "Photo")
     ]
 

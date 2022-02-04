@@ -10,8 +10,10 @@ https://docs.djangoproject.com/en/4.0/howto/deployment/asgi/
 import os
 
 from django.urls import re_path
+from django.conf import settings
 from django.core.asgi import get_asgi_application
 from channels.routing import ProtocolTypeRouter, URLRouter
+from asgi_middleware_static_file import ASGIMiddlewareStaticFile
 
 from main.consumers import QRNotifications
 
@@ -19,6 +21,10 @@ from main.consumers import QRNotifications
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.production')
 
 django_asgi_app = get_asgi_application()
+django_asgi_app = ASGIMiddlewareStaticFile(
+  django_asgi_app, static_url=settings.STATIC_URL,
+  static_root_paths=[settings.STATIC_ROOT]
+)
 
 application = ProtocolTypeRouter({
 

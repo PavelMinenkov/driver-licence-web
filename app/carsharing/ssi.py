@@ -42,7 +42,7 @@ async def check_driver_license(connection_key: str, pairwise: sirius_sdk.Pairwis
 
 async def issue_confirmation(connection_key: str, pairwise: sirius_sdk.Pairwise, values: dict):
     cred_def, schema = await fetch_schema(
-        name="Vehicle licence",
+        name="Vehicle license",
         version="1.0",
         attrs=[
             "last_name",

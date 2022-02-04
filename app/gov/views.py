@@ -30,6 +30,7 @@ async def index(request):
                     "birthday": form.cleaned_data['birthday'],
                     "place_of_birth": form.cleaned_data['place_of_birth'],
                     "issue_date": form.cleaned_data['issue_date'],
+                    "expiry_date": form.cleaned_data['expiry_date'],
                     "photo": base64.urlsafe_b64encode(form.cleaned_data['photo'].read()).decode("UTF-8")
                 }
                 conn_key = await browser_session.get_connection_key()
