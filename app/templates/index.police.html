@@ -22,10 +22,10 @@
                 {% if auth %}
                 <a href="{% url 'police-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
                 <a href="{% url 'police-request-driver-school-diploma' %}" type="button" class="btn btn-primary btn-lg">Request driving school diploma</a>
-                {#                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"#}
-                {#                        data-bs-target="#verify_photo">#}
-                {#                    Verify photo#}
-                {#                </button>#}
+                <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
+                        data-bs-target="#verify_photo">
+                    Verify photo
+                </button>
                 {% endif %}
             </div>
         </div>
@@ -89,6 +89,9 @@
                     <div class="col-sm-12 mb-3">
                         <label for="photo" class="form-label">Photo</label>
                         <input class="form-control" type="file" id="photo" accept="image/png, image/jpeg" name="photo" required>
+                        <div class="alert alert-danger" role="alert" id="bsalert" style="display: none">
+                          The max image size is 10Kb!!!
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -133,30 +136,33 @@
         </div>
     </div>
 </div>
-{#<div class="modal fade" id="verify_photo" tabindex="-1" aria-labelledby="Verify Photo" aria-hidden="true">#}
-{#    <div class="modal-dialog">#}
-{#        <div class="modal-content">#}
-{#            <div class="modal-header">#}
-{#                <h5 class="modal-title" id="exampleModalLabel">Verify photo</h5>#}
-{#            </div>#}
-{#            <div class="modal-body">#}
-{#                <div class="camera">#}
-{#                    <video id="video">Video stream not available.</video>#}
-{#                    <button id="startbutton">Take photo</button>#}
-{#                </div>#}
-{#                <canvas id="canvas">#}
-{#                </canvas>#}
-{#                <div class="output">#}
-{#                    <input type="file">#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="modal-footer">#}
-{#                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>#}
-{#                <button type="button" class="btn btn-success">Verify</button>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
+<div class="modal fade" id="verify_photo" tabindex="-1" aria-labelledby="Verify Photo" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Verify photo</h5>
+            </div>
+            <div class="modal-body">
+                <div class="camera" style="display: block;">
+                    <video id="video" style="position: relative;left: 50%;transform: translateX(-50%);">Video stream not available.</video>
+                    <canvas id="canvas" style="position: relative;left: 50%;transform: translateX(-50%);display: none"></canvas>
+                    <button id="startbutton" style="display: block; text-align: center; margin: auto">Take photo</button>
+                </div>
+                <br/>
+                <div class="alert alert-danger" role="alert" id="verify-alert-error" style="display: none; text-align: center">
+                  NOT VERIFIED
+                </div>
+                <div class="alert alert-success" role="alert" id="verify-alert-success" style="display: none; text-align: center">
+                  VERIFIED
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="verify">Verify</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 <script>
     $(function () {
@@ -189,88 +195,196 @@
         $('#expiry_date').val(today.toISOString().substr(0, 10))
     });
 
-    {#(function () {#}
-    {#    let width = 320;#}
-    {#    let height = 0;#}
-    {#    let streaming = false;#}
-    {#    let video = null;#}
-    {#    let canvas = null;#}
-    {#    let photo = null;#}
-    {#    let startbutton = null;#}
-    {##}
-    {#    function startup() {#}
-    {#        video = document.getElementById('video');#}
-    {#        canvas = document.getElementById('canvas');#}
-    {#        photo = document.getElementById('photo');#}
-    {#        startbutton = document.getElementById('startbutton');#}
-    {##}
-    {#        navigator.mediaDevices.getUserMedia({video: true, audio: false})#}
-    {#            .then(function (stream) {#}
-    {#                video.srcObject = stream;#}
-    {#                video.play();#}
-    {#            })#}
-    {#            .catch(function (err) {#}
-    {#                console.log("An error occurred: " + err);#}
-    {#            });#}
-    {##}
-    {#        video.addEventListener('canplay', function (ev) {#}
-    {#            if (!streaming) {#}
-    {#                height = video.videoHeight / (video.videoWidth / width);#}
-    {#                if (isNaN(height)) {#}
-    {#                    height = width / (4 / 3);#}
-    {#                }#}
-    {##}
-    {#                video.setAttribute('width', width);#}
-    {#                video.setAttribute('height', height);#}
-    {#                canvas.setAttribute('width', width);#}
-    {#                canvas.setAttribute('height', height);#}
-    {#                streaming = true;#}
-    {#            }#}
-    {#        }, false);#}
-    {##}
-    {#        startbutton.addEventListener('click', function (ev) {#}
-    {#            takepicture();#}
-    {#            ev.preventDefault();#}
-    {#        }, false);#}
-    {##}
-    {#        clearphoto();#}
-    {#    }#}
-    {##}
-    {#    // Fill the photo with an indication that none has been#}
-    {#    // captured.#}
-    {##}
-    {#    function clearphoto() {#}
-    {#        let context = canvas.getContext('2d');#}
-    {#        context.fillStyle = "#AAA";#}
-    {#        context.fillRect(0, 0, canvas.width, canvas.height);#}
-    {##}
-    {#        let data = canvas.toDataURL('image/png');#}
-    {#        photo.setAttribute('src', data);#}
-    {#    }#}
-    {##}
-    {#    // Capture a photo by fetching the current contents of the video#}
-    {#    // and drawing it into a canvas, then converting that to a PNG#}
-    {#    // format data URL. By drawing it on an offscreen canvas and then#}
-    {#    // drawing that to the screen, we can change its size and/or apply#}
-    {#    // other changes before drawing it.#}
-    {##}
-    {#    function takepicture() {#}
-    {#        let context = canvas.getContext('2d');#}
-    {#        if (width && height) {#}
-    {#            canvas.width = width;#}
-    {#            canvas.height = height;#}
-    {#            context.drawImage(video, 0, 0, width, height);#}
-    {##}
-    {#            let data = canvas.toDataURL('image/png');#}
-    {#            console.log(data)#}
-    {#            video.srcObject.getVideoTracks().forEach(track => track.stop());#}
-    {#        } else {#}
-    {#            clearphoto();#}
-    {#        }#}
-    {#    }#}
-    {##}
-    {#    // Set up our event listener to run the startup process#}
-    {#    // once loading is complete.#}
-    {#    window.addEventListener('load', startup, false);#}
+
+
+    $(function () {
+        let width = 320;
+        let height = 0;
+        let streaming = false;
+        let video = null;
+        let canvas = null;
+        let photo = null;
+        let startbutton = null;
+        let verifyButton = null;
+
+        let alertEnabled = false;
+
+        function toggleAlert(alertState){
+            alertEnabled = alertState;
+            if (alertEnabled) $("#bsalert").show(); else $("#bsalert").hide();
+            return false; // Keep close.bs.alert event from removing from DOM
+        }
+
+        function hideAlerts() {
+            $("#verify-alert-error").hide();
+            $("#verify-alert-success").hide();
+        }
+
+        function toggleVerifyAlert(msg) {
+
+            if (msg['status'])
+                $("#verify-alert-success").show();
+            else
+                $("#verify-alert-error").show();
+            return false;
+        }
+
+
+        $("#photo").on('change', function (e) {
+           let files = e.currentTarget.files;
+
+           if (files.length > 0 && files[0].size > 10240) {
+               toggleAlert(true);
+           } else {
+               toggleAlert(false);
+           }
+
+
+        });
+
+        function startup() {
+            video = document.getElementById('video');
+            canvas = document.getElementById('canvas');
+            photo = document.getElementById('photo');
+            startbutton = document.getElementById('startbutton');
+            verifyButton = document.getElementById('verify');
+
+            navigator.mediaDevices.getUserMedia({video: true, audio: false})
+                .then(function (stream) {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(function (err) {
+                    console.log("An error occurred: " + err);
+                });
+
+            video.addEventListener('canplay', function (ev) {
+                if (!streaming) {
+                    height = video.videoHeight / (video.videoWidth / width);
+                    if (isNaN(height)) {
+                        height = width / (4 / 3);
+                    }
+
+                    video.setAttribute('width', width);
+                    video.setAttribute('height', height);
+                    canvas.setAttribute('width', width);
+                    canvas.setAttribute('height', height);
+                    streaming = true;
+                }
+            }, false);
+
+            startbutton.addEventListener('click', function (ev) {
+                takepicture();
+                ev.preventDefault();
+            }, false);
+
+
+            verifyButton.addEventListener('click', function (ev) {
+                sendVerificationRequest();
+                {#ev.preventDefault();#}
+            }, false);
+
+            {#clearphoto();#}
+        }
+
+
+        // Convert base64 image string to blob
+        function toBlob(dataURL) {
+          var array, binary, i;
+          binary = atob(dataURL.split(',')[1]);
+          array = [];
+          i = 0;
+          while (i < binary.length) {
+            array.push(binary.charCodeAt(i));
+            i++;
+          }
+          let b = new Blob([new Uint8Array(array)], {
+            type: dataURL.split(',')[0].split(':')[1].split(';')[0]
+          });
+          console.log(b);
+          return b;
+        }
+
+
+        // Send request to backend for photo verification
+        function sendVerificationRequest() {
+            let formData = new FormData();
+
+            let documentPhotoData = $('#photo').prop('files')[0];
+
+            var reader = new FileReader();
+            reader.readAsDataURL(documentPhotoData);
+
+            reader.onload = () => {
+
+                formData.append('source_image', toBlob(reader.result), documentPhotoData.name);
+
+                let livePhotoData = canvas.toDataURL('image/png');
+                formData.append('target_image', toBlob(livePhotoData), 'live.png');
+
+                hideAlerts();
+
+                $.ajax({
+                    url: '/police/verify',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    mimeType: "multipart/form-data",
+                    type: 'POST',
+                    success: function(msg) {
+                        console.log(msg);
+
+                        toggleVerifyAlert(JSON.parse(msg));
+                    }
+                })
+
+            }
+
+        }
+
+
+        // Fill the photo with an indication that none has been
+        // captured.
+
+        {#function clearphoto() {#}
+        {#    let context = canvas.getContext('2d');#}
+        {#    context.fillStyle = "#AAA";#}
+        {#    context.fillRect(0, 0, canvas.width, canvas.height);#}
+        {##}
+        {#    let data = canvas.toDataURL('image/png');#}
+        {#    photo.setAttribute('src', data);#}
+        //}
+
+
+
+        // Capture a photo by fetching the current contents of the video
+        // and drawing it into a canvas, then converting that to a PNG
+        // format data URL. By drawing it on an offscreen canvas and then
+        // drawing that to the screen, we can change its size and/or apply
+        // other changes before drawing it.
+
+        function takepicture() {
+            let context = canvas.getContext('2d');
+            if (width && height) {
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
+
+                let data = canvas.toDataURL('image/png');
+                console.log(data)
+                video.srcObject.getVideoTracks().forEach(track => track.stop());
+
+                video.style.display = 'none';
+                canvas.style.display = 'block';
+
+            } else {
+                {#clearphoto();#}
+            }
+        }
+
+        // Set up our event listener to run the startup process
+        // once loading is complete.
+        window.addEventListener('load', startup, false);
+    });
 </script>
 </html>

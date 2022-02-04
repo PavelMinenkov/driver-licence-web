@@ -208,3 +208,10 @@ REDIS_HOST = os.getenv('REDIS_HOST')
 REDIS_PORT = os.getenv('REDIS_PORT')
 MEMCACHED_HOST = os.getenv('MEMCACHED_HOST')
 AUTH_LIVE_SECS = 60*15  # 15 minutes
+
+
+VERIFY_FACE_HOST = os.getenv('VERIFY_FACE_HOST')
+VERIFY_FACE_API_URL = '/api/v1/verification/verify'
+VERIFY_FACE_TOKEN = os.getenv('VERIFY_FACE_TOKEN') #'05e030c9-0498-4ac4-ad40-29aac1f0f8fb'
+
+VERIFY_FACE_THRESHOLD = .1

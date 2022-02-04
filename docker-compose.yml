@@ -24,6 +24,8 @@ services:
       - REDIS_HOST=redis
       - MEMCACHED_HOST=memcached
       - DJANGO_SETTINGS_MODULE=settings.develop
+      - VERIFY_FACE_HOST=http://localhost:8080
+      - VERIFY_FACE_TOKEN=05e030c9-0498-4ac4-ad40-29aac1f0f8fb
     volumes:
       - ./app:/app
     ports:
