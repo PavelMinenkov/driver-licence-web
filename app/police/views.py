@@ -79,7 +79,7 @@ async def logout(request):
 @csrf_exempt
 def verify_face(request):
     data = {
-        "status": True,
+        "status": False,
         "similarity": 0.0,
     }
 
@@ -96,7 +96,8 @@ def verify_face(request):
                                  headers={'x-api-key': settings.VERIFY_FACE_TOKEN})
 
         verify_data = response.json()
-    except:
+    except BaseException as ex:
+        print(ex)
         return JsonResponse(data)
 
     try:
