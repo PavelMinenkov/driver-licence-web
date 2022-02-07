@@ -32,6 +32,12 @@ async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (b
                 "restrictions": {
                     "issuer_did": settings.GOV["DID"]
                 }
+            },
+            "attr5_referent": {
+                "name": "photo",
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
             }
         }
     }

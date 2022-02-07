@@ -30,12 +30,11 @@ async def index(request):
         diploma = user.driving_school_diploma if user else None
 
         if request.method == 'POST':
-            form = IssueDriverLicenseForm(request.POST, request.FILES)
+            form = IssueDriverLicenseForm(request.POST)
             if form.is_valid():
                 values = {
                     "issue_date": form.cleaned_data['issue_date'],
                     "expiry_date": form.cleaned_data['expiry_date'],
-                    "photo": base64.urlsafe_b64encode(form.cleaned_data['photo'].read()).decode("UTF-8"),
                     "place_of_residence": form.cleaned_data['place_of_residence']
                 }
                 if passport:
@@ -43,6 +42,7 @@ async def index(request):
                     values["last_name"] = passport["last_name"]
                     values["birthday"] = passport["birthday"]
                     values["place_of_birth"] = passport["place_of_birth"]
+                    values["photo"] = passport["photo"]
                 if diploma:
                     values["categories"] = diploma["categories"]
 
