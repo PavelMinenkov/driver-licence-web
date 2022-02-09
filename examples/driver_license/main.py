@@ -9,8 +9,8 @@ class Logger:
 
 
 async def reg_driver_license() -> (sirius_sdk.CredentialDefinition, sirius_sdk.Schema):
-    schema_name = "Driver license"
-    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(GOV["DID"], schema_name, '1.0',
+    schema_name = "Driver license 1.003"
+    schema_id, anon_schema = await sirius_sdk.AnonCreds.issuer_create_schema(GOV["DID"], schema_name, '1.003',
                                          ["last_name",
                                           "first_name",
                                           "birthday",
@@ -92,6 +92,8 @@ async def issue_driver_license(cred_def: sirius_sdk.CredentialDefinition, schema
                     sirius_sdk.aries_rfc.AttribTranslation("birthday", "Birthday"),
                     sirius_sdk.aries_rfc.AttribTranslation("place_of_birth", "Place of birth"),
                     sirius_sdk.aries_rfc.AttribTranslation("issue_date", "Issue date"),
+                    sirius_sdk.aries_rfc.AttribTranslation("expiry_date", "Expiry date"),
+                    sirius_sdk.aries_rfc.AttribTranslation("issuer_code", "Issuer code"),
                     sirius_sdk.aries_rfc.AttribTranslation("photo", "Photo"),
                     sirius_sdk.aries_rfc.AttribTranslation("place_of_residence", "Place of residence"),
                     sirius_sdk.aries_rfc.AttribTranslation("categories", "Categories")
@@ -193,12 +195,15 @@ async def run():
             "birthday": "17.03.1993",
             "place_of_birth": "SPb",
             "issue_date": "01.01.2001",
+            "expiry_date": "01.01.3001",
+            "issuer_code": "123",
             "photo": "BINARY",
             "place_of_residence": "SPb",
             "categories": "B"
         }
         print("Working in police office")
         await issue_driver_license(driver_lic_cred_def, driver_lic_schema, values)
+    async with sirius_sdk.context(**RENT_A_CAR['SDK']):
         print("Working in car rental office")
         await verify_driver_license()
 

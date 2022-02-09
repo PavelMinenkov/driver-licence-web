@@ -19,11 +19,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
+                {% if auth %}
                 <a href="{% url 'drivingschool-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-2">
-            <img src="https://t3.ftcdn.net/jpg/02/85/37/94/360_F_285379448_ESNm6NMfZ0XPmU4l314Va1Jvgdfz9cMD.jpg"
+            <img src="https://cdn-icons-png.flaticon.com/512/1581/1581901.png"
                  alt="Carsharing Logo"
                  class="img-fluid">
         </div>

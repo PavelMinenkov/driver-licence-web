@@ -11,15 +11,15 @@ async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (b
         "requested_attributes": {
             "attr1_referent": {
                 "name": "last_name",
-                # "restrictions": {
-                #     "issuer_did": settings.GOV["DID"]
-                # }
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
             },
             "attr2_referent": {
                 "name": "first_name",
-                # "restrictions": {
-                #     "issuer_did": settings.GOV["DID"]
-                # }
+                "restrictions": {
+                    "issuer_did": settings.GOV["DID"]
+                }
             }
         }
     }
@@ -36,7 +36,7 @@ async def ask_passport(connection_key: str, pairwise: sirius_sdk.Pairwise) -> (b
 
 async def issue_driving_school_diploma(connection_key: str, pairwise: sirius_sdk.Pairwise, values: dict):
     cred_def, schema = await fetch_schema(
-        name="Vehicle licence",
+        name="Driving school diploma",
         version="1.0",
         attrs=[
             "last_name",

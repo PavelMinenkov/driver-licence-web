@@ -19,16 +19,14 @@
     <div class="row">
         <div class="col-md-12">
             <div class="d-flex justify-content-end mb-5">
-                <button type="button" class="btn btn-danger btn-lg mr-4">
-                    Request passport
-                </button>
-                <button type="button" class="btn btn-light btn-lg">
-                    Request driver school diploma
-                </button>
+                {% if auth %}
+                <a href="{% url 'police-request-passport' %}" type="button" class="btn btn-primary btn-lg">Request passport</a>
+                <a href="{% url 'police-request-driver-school-diploma' %}" type="button" class="btn btn-primary btn-lg">Request driving school diploma</a>
                 <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal"
                         data-bs-target="#verify_photo">
                     Verify photo
                 </button>
+                {% endif %}
             </div>
         </div>
         <div class="col-md-2">
@@ -49,30 +47,38 @@
             </div>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 col-sm-12 mb-3">
-                        <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder=""
-                               value="" required disabled>
+                <div class="row mb-3 align-items-center">
+                    <div class="col-md-2">
+                        <img class="img-thumbnail" src="https://avatars.mds.yandex.net/i?id=73bc9cce5e4034bf9e6a045c9ecd85ec-5876477-images-thumbs&n=13"
+                             alt="Profile Image">
                     </div>
-                    <div class="col-md-6 col-sm-12 mb-3">
-                        <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder=""
-                               value=""
-                               required disabled>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="first_name" class="form-label">First Name</label>
+                                <input type="text" class="form-control" name="first_name" id="first_name" placeholder=""
+                                       value="{{ first_name }}" required disabled>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="last_name" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" name="last_name" id="last_name" placeholder=""
+                                       value="{{ last_name }}"
+                                       required disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="birthday" class="form-label">Birthday</label>
-                        <input type="date" class="form-control" name="birthday" id="birthday" value=""
+                        <input type="date" class="form-control" name="birthday" id="birthday" value="{{ birthday }}"
                                required disabled>
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="place_of_birth" class="form-label">Place of birth</label>
                         <input type="text" class="form-control" name="place_of_birth" id="place_of_birth"
                                placeholder=""
-                               value="" required disabled>
+                               value="{{ place_of_birth }}" required disabled>
                     </div>
                 </div>
                 <div class="row">
@@ -87,15 +93,15 @@
                                required>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-sm-12 mb-3">
-                        <label for="photo" class="form-label">Photo</label>
-                        <input class="form-control" type="file" id="photo" accept="image/png, image/jpeg" name="photo" required>
-                        <div class="alert alert-danger" role="alert" id="bsalert" style="display: none">
-                          The max image size is 10Kb!!!
-                        </div>
-                    </div>
-                </div>
+{#                <div class="row">#}
+{#                    <div class="col-sm-12 mb-3">#}
+{#                        <label for="photo" class="form-label">Photo</label>#}
+{#                        <input class="form-control" type="file" id="photo" accept="image/png, image/jpeg" name="photo" required>#}
+{#                        <div class="alert alert-danger" role="alert" id="bsalert" style="display: none">#}
+{#                          The max image size is 10Kb!!!#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
                 <div class="row">
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="place_of_residence" class="form-label">Place of residence</label>
@@ -105,7 +111,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12 mb-3">
                         <label for="categories" class="form-label">Categories</label>
-                        <input type="text" class="form-control" name="categories" id="categories" value="" required disabled>
+                        <input type="text" class="form-control" name="categories" id="categories" value="{{ categories }}" required disabled>
                     </div>
                 </div>
                 <div class="row justify-content-end">

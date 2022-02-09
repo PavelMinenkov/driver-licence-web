@@ -36,7 +36,7 @@ async def index(request):
                     values["last_name"] = passport["last_name"]
 
                 pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                await issue_driving_school_diploma(pw, values)
+                await issue_driving_school_diploma(connection_key, pw, values)
 
         template = loader.get_template('index.drivingschool.html')
         context = {
@@ -68,9 +68,9 @@ async def request_passport(request):
         conn_key = await browser_session.get_connection_key()
         user = await auth(conn_key)
         pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-        ok, drive_lic_attrs = await ask_passport(conn_key, pw)
+        ok, passport_attrs = await ask_passport(conn_key, pw)
         if ok:
-            await save_passport(await browser_session.get_connection_key(), drive_lic_attrs)
+            await save_passport(await browser_session.get_connection_key(), passport_attrs)
 
     response = HttpResponseRedirect(redirect_to=reverse('drivingschool-index'))
     return response
