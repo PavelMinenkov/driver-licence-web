@@ -8,7 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 import sirius_sdk
 import base64
 import requests
-
+import os
 
 from main.helpers import BrowserSession, build_websocket_url
 from main.authorization import auth, save_passport, save_driving_school_diploma
@@ -47,7 +47,7 @@ async def index(request):
                     values["categories"] = diploma["categories"]
 
                 pw = await sirius_sdk.PairwiseList.load_for_verkey(user.verkey)
-                await issue_driver_license(connection_key, pw, values, form.cleaned_data['photo'].content_type)
+                await issue_driver_license(connection_key, pw, values, "image/jpeg")
 
         template = loader.get_template('index.police.html')
         context = {
@@ -61,6 +61,7 @@ async def index(request):
             context["last_name"] = passport["last_name"]
             context["birthday"] = passport["birthday"]
             context["place_of_birth"] = passport["place_of_birth"]
+            context["user_photo"] = os.path.join(settings.MEDIA_URL, connection_key + ".jpg")
         if diploma:
             context["categories"] = diploma["categories"]
         response = HttpResponse(template.render(context, request))
@@ -115,6 +116,14 @@ def verify_face(request):
     return JsonResponse(data)
 
 
+def save_driver_photo(connection_key: str, b64: str):
+    imgdata = base64.urlsafe_b64decode(b64)
+    os.mkdir(settings.MEDIA_ROOT)
+    with open(os.path.join(settings.MEDIA_ROOT, connection_key + ".jpg"), 'wb') as f:
+        print(f.write(imgdata))
+        print(f.name)
+
+
 async def request_passport(request):
     async with sirius_sdk.context(**settings.POLICE['SDK']):
         browser_session = BrowserSession(request, cookie_path=reverse('police-index'))
@@ -124,6 +133,7 @@ async def request_passport(request):
         ok, passport_attrs = await ask_passport(conn_key, pw)
         if ok:
             await save_passport(await browser_session.get_connection_key(), passport_attrs)
+            save_driver_photo(conn_key, passport_attrs["photo"])
 
     response = HttpResponseRedirect(redirect_to=reverse('police-index'))
     return response

@@ -49,8 +49,13 @@
                 {% csrf_token %}
                 <div class="row mb-3 align-items-center">
                     <div class="col-md-2">
-                        <img class="img-thumbnail" src="https://avatars.mds.yandex.net/i?id=73bc9cce5e4034bf9e6a045c9ecd85ec-5876477-images-thumbs&n=13"
-                             alt="Profile Image">
+                        {% if user_photo %}
+                            <img class="img-thumbnail" src="{{ user_photo }}"
+                                 alt="Profile Image">
+                        {% else %}
+                            <img class="img-thumbnail" src="https://avatars.mds.yandex.net/i?id=73bc9cce5e4034bf9e6a045c9ecd85ec-5876477-images-thumbs&n=13"
+                                 alt="Profile Image">
+                        {% endif %}
                     </div>
                     <div class="col-md-10">
                         <div class="row">

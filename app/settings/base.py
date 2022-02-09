@@ -215,3 +215,6 @@ VERIFY_FACE_API_URL = '/api/v1/verification/verify'
 VERIFY_FACE_TOKEN = os.getenv('VERIFY_FACE_TOKEN') #'05e030c9-0498-4ac4-ad40-29aac1f0f8fb'
 
 VERIFY_FACE_THRESHOLD = .1
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
