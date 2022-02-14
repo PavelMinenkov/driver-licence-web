@@ -11,45 +11,70 @@
 </head>
 <body>
 
-<div class="container">
-    <div class="w-screen flex" style="height: 100vh">
-        <div class="w-full flex flex-col items-center justify-center relative">
-            <div class="absolute top-1/2 mt-16 w-px h-32 bg-gray-900"></div>
-            <div class="absolute left-1/2 ml-20 w-32 h-px bg-gray-900"></div>
-            <div class="absolute right-1/2 mr-20 w-32 h-px bg-gray-900"></div>
-            <div class="absolute bottom-1/2 mb-16 w-px h-32 bg-gray-900"></div>
-            <a href="{% url 'gov-index' %}" class="flex flex-col items-center mb-36 text-lg">
-                <img src="https://cdn1.iconfinder.com/data/icons/office-and-internet-1/49/74-512.png"
-                     alt="CarSharing Logo"
-                     class="w-24 mb-4">
-                Passport office
-            </a>
-            <div class="flex items-center">
-                <a href="{% url 'carsharing-index' %}" class="flex flex-col items-center mr-48 text-lg">
-                    <img src="https://thumbs.dreamstime.com/b/car-sharing-icon-group-carpool-community-171703016.jpg"
-                         alt="CarSharing Logo"
-                         class="w-24 mb-4">
-                    Car sharing
-                </a>
-                <img class="w-24 h-24 mb-4"
-                     src="https://cdn-icons-png.flaticon.com/512/4964/4964849.png"
-                     alt="Sirius Logo">
-                <a href="{% url 'drivingschool-index' %}" class="flex flex-col items-center ml-48 text-lg">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1581/1581901.png"
-                         alt="Driving school"
-                         class="w-24 mb-4">
-                    Driving school
-                </a>
-            </div>
-            <a href="{% url 'police-index' %}" class="flex flex-col items-center mt-36 text-lg">
-                <img src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png"
-                     alt="Police Logo"
-                     class="w-24 mb-4">
-                Police
-            </a>
+<div class="flex items-center justify-center w-full h-screen py-48 rounded-full">
+    <div class="flex flex-col h-full justify-around">
+        <a href="{% url 'gov-index' %}" class="flex flex-col items-center text-lg hover:underline">
+            <img src="https://cdn1.iconfinder.com/data/icons/office-and-internet-1/49/74-512.png"
+                     alt="Passport Office"
+                     class="w-12 mb-4">
+            Passport Office
+        </a>
+        <a href="{% url 'drivingschool-index' %}" class="flex flex-col items-center text-lg hover:underline mr-32">
+            <img src="https://cdn-icons-png.flaticon.com/512/1581/1581901.png"
+                 alt="Driving school"
+                 class="w-12 mb-4">
+            Driving school
+        </a>
+        <a href="{% url 'police-index' %}" class="flex flex-col items-center text-lg hover:underline mr-32">
+            <img src="https://pngimg.com/uploads/police_badge/police_badge_PNG71.png"
+                 alt="Police Logo"
+                 class="w-12 mb-4">
+            Police
+        </a>
+        <a href="{% url 'carsharing-index' %}" class="flex flex-col items-center text-lg hover:underline">
+            <img src="https://thumbs.dreamstime.com/b/car-sharing-icon-group-carpool-community-171703016.jpg"
+                         alt="Car sharing"
+                         class="w-12 mb-4">
+            Car sharing
+        </a>
+    </div>
+    <div class="flex flex-col">
+        <div class="flex flex-col items-center text-lg mb-24">
+            <img src="https://freeiconshop.com/wp-content/uploads/edd/bank-flat.png"
+                 class="w-12 mb-4"
+                 alt="Bank">
+            Bank
+        </div>
+        <img class="w-48 h-48 mb-4"
+             src="https://cdn-icons-png.flaticon.com/512/4964/4964849.png"
+             alt="Sirius Logo">
+        <div class="flex flex-col items-center text-lg mt-24">
+            <img src="https://cdn-icons-png.flaticon.com/512/235/235889.png" alt="Hotel" class="w-12 mb-4">
+            Hotel
+        </div>
+    </div>
+    <div class="flex flex-col h-full justify-around">
+        <div class="flex flex-col items-center text-lg">
+            <img src="https://cdn-icons-png.flaticon.com/512/1909/1909890.png" alt="Customs" class="w-12 mb-4">
+            Customs
+        </div>
+        <div class="flex flex-col items-center text-lg ml-24">
+            <img src="https://cdn-icons-png.flaticon.com/512/4807/4807710.png" alt="Notary" class="w-12 mb-4">
+            Notary
+        </div>
+        <div class="flex flex-col items-center text-lg ml-32">
+            <img src="https://cdn-icons-png.flaticon.com/512/5235/5235598.png" alt="Buying and selling a car" class="w-12 mb-4">
+            Buying and selling a car
+        </div>
+        <div class="flex flex-col items-center text-lg ml-24">
+            <img src="https://cdn-icons-png.flaticon.com/512/249/249026.png" alt="Insurance" class="w-12 mb-4">
+            Insurance
+        </div>
+        <div class="flex flex-col items-center text-lg">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE5Ncyu3ZrnOR8i7B_J1UzNT-wLoEjzyuWqg&usqp=CAU" alt="Medical office" class="w-12 mb-4">
+            Medical office
         </div>
     </div>
 </div>
-
 </body>
 </html>
