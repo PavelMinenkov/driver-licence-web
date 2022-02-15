@@ -6,17 +6,567 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ title }}</title>
+    <link rel="stylesheet" href="{% static "bootstrap.min.css" %}">
     <script src="{% static "jquery-3.4.1.min.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/atom-one-dark.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+    <style>
+        .modal-xl {
+            max-width: 1140px;
+        }
+    </style>
 </head>
-<body>
+<body class="relative">
+
+<button type="button"
+        class="btn btn-link absolute top-0 left-0 text-lg"
+        data-bs-toggle="modal"
+        data-bs-target="#mrg">
+    Machine-readable-Gov
+</button>
+
+<div class="modal fade" id="mrg" style="display: none" tabindex="-1" aria-labelledby="display_qr_code_label"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Machine-readable-Gov</h5>
+                <button type="button" data-bs-dismiss="modal" aria-label="Close">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body" id="auth_modal_body">
+                <pre>
+                    <code class="language-json hljs">
+{
+  "@context": ["https://github.com/hyperledger/aries-rfcs/blob/main/concepts/0430-machine-readable-governance-frameworks/context.jsonld"],
+  "name": "Aruba COVID Governance",
+  "version": "0.2",
+  "format": "1.0",
+  "id": "uuid",
+  "description": "This document describes COVID health and travel governance for the nation of Aruba in a machine readable way.",
+  "last_updated": "2021-10-02",
+  "docs_uri": "need_to_create",
+  "data_uri": "need_to_create",
+  "topics": [
+    "medical, travel"
+  ],
+  "jurisdictions": [
+    "US>NY>New York City",
+    "AW"
+  ],
+  "geos": [
+    "USA",
+    "Aruba"
+  ],
+  "schemas": [
+    {
+      "id": "4CLG5pU5v294VdkMWxSByZ:2:Email:1.0",
+      "name": "Validated Email",
+    },
+    {
+      "id": "4CLG5pU5v294VdkMWxSByZ:2:SMS:1.0",
+      "name": "SMS",
+    },
+    {
+      "id": "4CLG5pU5v294VdkMWxSByZ:2:Medical_Release:1.0",
+      "name": "Medical Release",
+    },
+    {
+      "id": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Order:1.4",
+      "name": "Lab Order",
+    },
+    {
+      "id": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Result:1.4",
+      "name": "Lab Result",
+    },
+    {
+      "id": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccine:1.4",
+      "name": "Vaccine",
+    },
+    {
+      "id": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccine_Exemption:1.4",
+      "name": "Vaccine Exemption",
+    },
+    {
+      "id": "RuuJwd3JMffNwZ43DcJKN1:2:Trusted_Traveler:1.4",
+      "name": "Trusted Traveler",
+    }
+  ],
+  "participants": [
+    {
+      "name": "Aruba Government",
+      "id": "J1pp5Ro5Xf6qtF281xknFs",
+      "describe": {
+        "label": "Aruba",
+        "sublabel": "Aruba Government",
+        "website": "issuinggovernmentsite.org",
+        "email": "credential_manager@issuinggovernmentsite.org"
+      }
+    },
+    {
+      "name": "General Horacio Oduber Hospital of Aruba",
+      "id": "FK8a5myo4jhh3yDfn4WtbS",
+      "describe": {
+        "label": "Horacio Oduber Hospital",
+        "sublabel": "General Horacio Oduber Hospital of Aruba",
+        "website": "issuinglabsite.com",
+        "email": "credential_manager@issuinglabsite.com"
+      }
+    },
+    {
+      "name": "Hilton Casino",
+      "id": "did:example:casino",
+      "describe": {
+        "label": "Hilton Resort and Casino",
+        "sublabel": "Verifying Org",
+        "website": "verifyingorgsite.com",
+        "email": "verifying_manager@verifyingorgsite.com"
+      }
+    }
+  ],
+  "roles": [
+    "holder",
+    "health_issuer",
+    "travel_issuer",
+    "health_verifier",
+    "travel_verifier",
+    "hospitality_verifier"
+  ],
+  "permissions": [ // Roles mapped to participants
+    {
+      "grant": ["health_issuer"],
+      "when": {
+        "any": [
+          {"id": "FK8a5myo4jhh3yDfn4WtbS"},
+          {"id": "did:example:lab"}
+        ]
+      }
+    },
+    {
+      "grant": ["travel_issuer"],
+      "when": {
+        "any": [
+          {"id": "J1pp5Ro5Xf6qtF281xknFs"}
+        ]
+      }
+    },
+    {
+      "grant": ["health_verifier"],
+      "when": {
+        "any": [
+          {"id": "J1pp5Ro5Xf6qtF281xknFs"}
+        ]
+      }
+    },
+    {
+      "grant": ["travel_verifier"],
+      "when": {
+        "any": [
+          {"id": "J1pp5Ro5Xf6qtF281xknFs"}
+        ]
+      }
+    },
+    {
+      "grant": ["hospitality_verifier"],
+      "when": {
+        "any": [
+          {"id": "did:example:casino"}
+        ]
+      }
+    }
+  ],
+  "actions": [
+  // Actions are a name associated with a protocol (and sometimes a schema)
+    {
+      "name": "connect",
+      "protocol": "https://didcomm.org/connections/1.0/",
+      "startmessage": "invitation",
+      "details": {}
+    },
+
+    {
+      "name": "issue_lab_order",
+      "protocol": "https://didcomm.org/issue-credential/1.0/",
+      "startmessage": "offer-credential",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Order:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "issue_lab_result",
+      "protocol": "https://didcomm.org/issue-credential/1.0/",
+      "startmessage": "offer-credential",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Result:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "issue_vaccine",
+      "protocol": "https://didcomm.org/issue-credential/1.0/",
+      "startmessage": "offer-credential",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccination:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "issue_vaccine_exemption",
+      "protocol": "https://didcomm.org/issue-credential/1.0/",
+      "startmessage": "offer-credential",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccine_Exemption:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "issue_trusted_traveler",
+      "protocol": "https://didcomm.org/issue-credential/1.0/",
+      "startmessage": "offer-credential",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Trusted_Traveler:1.4",
+        "presentation_definition": "http://localhost:3100/api/presentation-exchange" // Development only, replace with a hashlink in production
+      }
+    },
+    {
+      "name": "verify_identity",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {}
+    },
+    {
+      "name": "verify_lab_order",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Order:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "verify_lab_result",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Lab_Result:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "verify_vaccine",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccination:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "verify_vaccine_exemption",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Vaccine_Exemption:1.4",
+        "presentation_definition": "hl:zm9YZpCjPLPJ4Epc:z3TSgaEFFHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPUJFDD" // Example, not real
+      }
+    },
+    {
+      "name": "verify_trusted_traveler",
+      "protocol": "https://didcomm.org/present-proof/1.0/",
+      "startmessage": "request-presentation",
+      "details": {
+        "schema": "RuuJwd3JMffNwZ43DcJKN1:2:Trusted_Traveler:1.4",
+        "presentation_definition": [
+          {
+            "travel_verifier": "hl:zm9YZpCjPLPJ4Epc:z3TSgXTuaHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPQyLHy"
+          },
+          {
+            "hospitality_verifier": "hl:zm9YZpCjPLPJ4Epc:z3TSgXTuaHxY2tsArhUreJ4ixgw9NW7DYuQ9QTPQyLHy"
+          }
+        ]
+      }
+    }
+  ],
+  "privileges": [ // Actions mapped to roles
+    {
+      "grant": [
+        "issue_lab_order"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_issuer"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "issue_lab_result"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_issuer"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "issue_vaccine"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_issuer"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "issue_vaccine_exemption"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_issuer"
+          },
+          {
+            "role": "holder"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "issue_trusted_traveler"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "travel_issuer"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_identity"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_issuer"
+          },
+          {
+            "role": "travel_issuer"
+          },
+          {
+            "role": "health_verifier"
+          },
+          {
+            "role": "travel_verifier"
+          },
+          {
+            "role": "hospitality_verifier"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_lab_order"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_verifier"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_lab_result"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_verifier"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_vaccine"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_verifier"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_vaccine_exemption"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "health_verifier"
+          }
+        ]
+      }
+    },
+    {
+      "grant": [
+        "verify_trusted_traveler"
+      ],
+      "when": {
+        "any": [
+          {
+            "role": "travel_verifier"
+          },
+          {
+            "role": "hospitality_verifier"
+          }
+        ]
+      }
+    }
+  ],
+  "flows": {
+  // Most likely a stand-alone document referred to
+  // using a hash link, but included here while we're brainstorming
+    "connect-to-health-issuer": {
+      "role": "holder",
+      "initial": true,
+      "actions": [
+        {
+          "name": "connect",
+          "target": "health_issuer"
+        }
+      ],
+      "next": [
+        "success": [
+          {
+            "name": "health-verify-identity", // Happy path
+          },
+        ]
+      ]
+    }
+    "health-verify-identity": {
+      "role": "health_issuer",
+      "initial": true,
+      "conditions": [
+        {
+          "type": "connection",
+          "target": "holder"
+        }
+      ],
+      "actions": [
+        {
+          "name": "verify_identity",
+        },
+      ],
+      "next": [
+        "success": [
+          {
+            "name": "health-issue-credential", // Happy path
+          },
+        ]
+      ]
+    },
+    "health-issue-credential": {
+      "role": "health_issuer",
+      "actions": [
+        "or": [
+          {
+            "and": [
+              { "name": "issue_lab_order" },
+              { "name": "issue_lab_result" }
+            ]
+          },
+          { "name": "issue_vaccine" },
+          { "name": "issue_vaccine_exemption" },
+        ]
+      ],
+      "next": [
+        "success": [
+          {
+            "name": "connect-to-travel-issuer" // Happy path
+          },
+        ]
+      ]
+    },
+    "connect-to-travel-issuer": {
+      "role": "holder",
+      "actions": [
+        {
+          "name": "connect",
+          "target": "travel_issuer"
+        }
+      ],
+      "next": [
+        "success": [
+          {
+            "name": "travel-verify-holder" // Happy path
+          }
+        ]
+      ]
+    },
+    "travel-verify-holder": {
+      "role": "travel_issuer",
+      "actions": [
+        {
+          "name": "verify_identity",
+        },
+      ],
+      "next": [
+        "success": [
+          {
+            "name": "travel-issue-credential", // Happy path
+          },
+        ]
+      ]
+    },
+    "travel-issue-credential": {
+      "role": "travel_issuer",
+      "actions": [
+        {
+          "name": "issue_trusted_traveler"
+        }
+      ],
+    },
+  }
+}
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="flex items-center justify-center w-full h-screen py-48 rounded-full">
     <div class="flex flex-col h-full justify-around">
         <a href="{% url 'gov-index' %}" class="flex flex-col items-center text-lg hover:underline">
             <img src="https://cdn1.iconfinder.com/data/icons/office-and-internet-1/49/74-512.png"
-                     alt="Passport Office"
-                     class="w-12 mb-4">
+                 alt="Passport Office"
+                 class="w-12 mb-4">
             Passport Office
         </a>
         <a href="{% url 'drivingschool-index' %}" class="flex flex-col items-center text-lg hover:underline mr-32">
@@ -33,8 +583,8 @@
         </a>
         <a href="{% url 'carsharing-index' %}" class="flex flex-col items-center text-lg hover:underline">
             <img src="https://thumbs.dreamstime.com/b/car-sharing-icon-group-carpool-community-171703016.jpg"
-                         alt="Car sharing"
-                         class="w-12 mb-4">
+                 alt="Car sharing"
+                 class="w-12 mb-4">
             Car sharing
         </a>
     </div>
@@ -63,7 +613,8 @@
             Notary
         </div>
         <div class="flex flex-col items-center text-lg ml-32">
-            <img src="https://cdn-icons-png.flaticon.com/512/5235/5235598.png" alt="Buying and selling a car" class="w-12 mb-4">
+            <img src="https://cdn-icons-png.flaticon.com/512/5235/5235598.png" alt="Buying and selling a car"
+                 class="w-12 mb-4">
             Buying and selling a car
         </div>
         <div class="flex flex-col items-center text-lg ml-24">
@@ -71,10 +622,15 @@
             Insurance
         </div>
         <div class="flex flex-col items-center text-lg">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE5Ncyu3ZrnOR8i7B_J1UzNT-wLoEjzyuWqg&usqp=CAU" alt="Medical office" class="w-12 mb-4">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQE5Ncyu3ZrnOR8i7B_J1UzNT-wLoEjzyuWqg&usqp=CAU"
+                 alt="Medical office" class="w-12 mb-4">
             Medical office
         </div>
     </div>
 </div>
+
+<script>
+    hljs.highlightAll();
+</script>
 </body>
 </html>
