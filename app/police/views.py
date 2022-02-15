@@ -118,7 +118,7 @@ def verify_face(request):
 
 def save_driver_photo(connection_key: str, b64: str):
     imgdata = base64.urlsafe_b64decode(b64)
-    os.mkdir(settings.MEDIA_ROOT)
+    os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
     with open(os.path.join(settings.MEDIA_ROOT, connection_key + ".jpg"), 'wb') as f:
         print(f.write(imgdata))
         print(f.name)
