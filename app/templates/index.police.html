@@ -162,12 +162,7 @@
                     <button id="startbutton" style="display: block; text-align: center; margin: auto">Take photo</button>
                 </div>
                 <br/>
-                <div class="alert alert-danger" role="alert" id="verify-alert-error" style="display: none; text-align: center">
-                  NOT VERIFIED
-                </div>
-                <div class="alert alert-success" role="alert" id="verify-alert-success" style="display: none; text-align: center">
-                  VERIFIED
-                </div>
+                <div class="alert" role="alert" id="verify-alert" style="display: none; text-align: center"></div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -221,6 +216,7 @@
         let verifyButton = null;
 
         let alertEnabled = false;
+        let verifyAlertElement = $("#verify-alert");
 
         function toggleAlert(alertState){
             alertEnabled = alertState;
@@ -228,17 +224,26 @@
             return false; // Keep close.bs.alert event from removing from DOM
         }
 
-        function hideAlerts() {
-            $("#verify-alert-error").hide();
-            $("#verify-alert-success").hide();
+        function hideAlert() {
+            verifyAlertElement.removeClass("alert-success");
+            verifyAlertElement.removeClass("alert-danger");
+            verifyAlertElement.hide();
         }
 
         function toggleVerifyAlert(msg) {
+            let rndSim;
+            rndSim = Math.floor(msg['similarity'] * 10000) / 100;
 
-            if (msg['status'])
-                $("#verify-alert-success").show();
-            else
-                $("#verify-alert-error").show();
+
+            if (msg['status']) {
+                verifyAlertElement.append('VERIFIED (' + rndSim + '%)');
+                verifyAlertElement.addClass("alert-success").show();
+            }
+            else {
+                verifyAlertElement.append('NOT VERIFIED (' + rndSim + '%)');
+                verifyAlertElement.addClass("alert-danger").show();
+            }
+
             return false;
         }
 
@@ -335,7 +340,7 @@
                 let livePhotoData = canvas.toDataURL('image/png');
                 formData.append('target_image', toBlob(livePhotoData), 'live.png');
 
-                hideAlerts();
+                hideAlert();
 
                 $.ajax({
                     url: '/police/verify',
