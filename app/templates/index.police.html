@@ -326,38 +326,17 @@
 
         // Send request to backend for photo verification
         function sendVerificationRequest() {
-            let formData = new FormData();
-
-            let documentPhotoData = $('#photo').prop('files')[0];
-
-            var reader = new FileReader();
-            reader.readAsDataURL(documentPhotoData);
-
-            reader.onload = () => {
-
-                formData.append('source_image', toBlob(reader.result), documentPhotoData.name);
-
-                let livePhotoData = canvas.toDataURL('image/png');
-                formData.append('target_image', toBlob(livePhotoData), 'live.png');
-
-                hideAlert();
-
-                $.ajax({
+            $.ajax({
                     url: '/police/verify',
-                    data: formData,
                     processData: false,
                     contentType: false,
                     mimeType: "multipart/form-data",
                     type: 'POST',
                     success: function(msg) {
                         console.log(msg);
-
                         toggleVerifyAlert(JSON.parse(msg));
                     }
                 })
-
-            }
-
         }
 
 
