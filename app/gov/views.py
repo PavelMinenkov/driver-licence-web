@@ -11,6 +11,9 @@ from main.authorization import auth
 from gov.forms import PassportForm
 from gov.ssi import issue_passport
 
+from PIL import Image
+import io
+
 
 async def index(request):
 
@@ -24,6 +27,13 @@ async def index(request):
         if request.method == 'POST':
             form = PassportForm(request.POST, request.FILES)
             if form.is_valid():
+                photo = form.cleaned_data['photo']
+                img = Image.open(photo)
+                resized_img = img.resize((32, 32))
+                buffer = io.BytesIO()
+                if resized_img.mode in ("RGBA", "P"):
+                    resized_img = resized_img.convert("RGB")
+                resized_img.save(buffer, format='JPEG')
                 values = {
                     "last_name": form.cleaned_data['last_name'],
                     "first_name": form.cleaned_data['first_name'],
@@ -31,7 +41,7 @@ async def index(request):
                     "place_of_birth": form.cleaned_data['place_of_birth'],
                     "issue_date": form.cleaned_data['issue_date'],
                     "expiry_date": form.cleaned_data['expiry_date'],
-                    "photo": base64.urlsafe_b64encode(form.cleaned_data['photo'].read()).decode("UTF-8")
+                    "photo": base64.urlsafe_b64encode(buffer.getvalue()).decode("UTF-8")
                 }
                 conn_key = await browser_session.get_connection_key()
                 user = await auth(conn_key)
